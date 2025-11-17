@@ -13,6 +13,6 @@ public class qqq : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        print("1111");
     }
 }
