@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 4494479021288597466}
   - component: {fileID: 4494479021288597461}
   - component: {fileID: 4494479021288597467}
+  - component: {fileID: 660783465799228256}
   m_Layer: 0
   m_Name: archer_level_1
   m_TagString: Untagged
@@ -133,3 +134,24 @@ MonoBehaviour:
   attackCooldown: 1
   firePoint: {fileID: 2570935388856375569}
   arrowPrefab: {fileID: 4111425245804094528, guid: d5cfceebbf7aed2428dd5e4318c8a5bd, type: 3}
+--- !u!95 &660783465799228256
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4494479021288597460}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2ad0d5b89c12625449588c08859d0b7f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
