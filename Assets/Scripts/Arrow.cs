@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Arrow : MonoBehaviour
@@ -22,12 +20,22 @@ public class Arrow : MonoBehaviour
             return;
         }
 
-        // 타겟 방향으로 이동
+        // --------------------------
+        // 1) 회전: 화살촉을 적 방향으로 보냄
+        // --------------------------
         Vector3 dir = (target.position - transform.position).normalized;
-        transform.position += dir * speed * Time.deltaTime;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90f;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
 
-        // 일정 거리 이하이면 타격
-        if (Vector3.Distance(transform.position, target.position) < 0.3f)
+        // --------------------------
+        // 2) 이동: 적 방향으로 전진
+        // --------------------------
+        transform.position += transform.up * speed * Time.deltaTime;
+
+        // --------------------------
+        // 3) 적과 충돌하면 데미지
+        // --------------------------
+        if (Vector2.Distance(transform.position, target.position) < 0.3f)
         {
             target.GetComponent<Enemy>().TakeDamage(damage);
             Destroy(gameObject);
