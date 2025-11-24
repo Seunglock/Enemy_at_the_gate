@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+
+    private Animator anim;
     public float hp = 5f;
     public int goldReward = 5;
     public float moveSpeed = 5f;
@@ -16,6 +18,8 @@ public class Enemy : MonoBehaviour
     {
         originalSpeed = moveSpeed; // 너가 Enemy에서 쓰는 이동 속도 변수
         currentSpeed = moveSpeed;
+
+        anim = GetComponent<Animator>();
     }
 
     public void ApplySlow(float slowPercent, float duration)
@@ -31,18 +35,10 @@ public class Enemy : MonoBehaviour
         currentSpeed = originalSpeed;
     }
 
-    private Animator anim;
-
-    void Start()
-    {
-        anim = GetComponent<Animator>();
-    }
-
     public void TakeDamage(float damage)
     {
         hp -= damage;
 
-        // Hit 애니메이션
         if (anim != null)
             anim.SetTrigger("Hit");
 
