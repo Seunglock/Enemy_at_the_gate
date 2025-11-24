@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+
+    private Animator anim;
     public float hp = 5f;
     public int goldReward = 5;
     public float moveSpeed = 5f;
@@ -14,13 +16,15 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
-        originalSpeed = moveSpeed; // ³Ê°¡ Enemy¿¡¼­ ¾²´Â ÀÌµ¿ ¼Óµµ º¯¼ö
+        originalSpeed = moveSpeed; // ë„ˆê°€ Enemyì—ì„œ ì“°ëŠ” ì´ë™ ì†ë„ ë³€ìˆ˜
         currentSpeed = moveSpeed;
+
+        anim = GetComponent<Animator>();
     }
 
     public void ApplySlow(float slowPercent, float duration)
     {
-        StopAllCoroutines();  // ½½·Î¿ì ÁßÃ¸ ¹æÁö
+        StopAllCoroutines();  // ìŠ¬ë¡œìš° ì¤‘ì²© ë°©ì§€
         StartCoroutine(SlowEffect(slowPercent, duration));
     }
 
@@ -31,20 +35,22 @@ public class Enemy : MonoBehaviour
         currentSpeed = originalSpeed;
     }
 
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        Debug.Log("Enemy Trigger Enter: " + other.name);
-    }
-
     public void TakeDamage(float damage)
     {
         hp -= damage;
         Debug.Log("Enemy health: " + name + hp);
         if (hp <= 0)
         {
-            Destroy(gameObject);
+            Die();
+        }
+    }
 
+    void Die()
+    {
+        if (SystemController.instance != null)
+        {
             SystemController.instance.AddGold(goldReward);
         }
+        Destroy(gameObject);
     }
 }
