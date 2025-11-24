@@ -10,14 +10,16 @@ public class Enemy : MonoBehaviour
     public int goldReward = 5;
     public float moveSpeed = 5f;
 
+    private float maxHp;
     private float originalSpeed;
     private float currentSpeed;
 
 
     void Start()
     {
-        originalSpeed = moveSpeed; // 너가 Enemy에서 쓰는 이동 속도 변수
+        originalSpeed = moveSpeed; // Enemy에서 쓰는 이동 속도 변수
         currentSpeed = moveSpeed;
+        maxHp = hp;
 
         anim = GetComponent<Animator>();
     }
@@ -38,12 +40,24 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(float damage)
     {
         hp -= damage;
-        Debug.Log("Enemy health: " + name + hp);
+        Debug.Log("Enemy health: " + name +":"+ hp);
         if (hp <= 0)
         {
             Die();
         }
     }
+
+    public void TakePercentDamage(float percent)
+    {
+        float damageAmount = maxHp * percent;
+        hp -= damageAmount;
+        Debug.Log("Enemy health: " + name + ":" + hp);
+        if (hp <= 0)
+        {
+            Die();
+        }
+    }
+
 
     void Die()
     {
