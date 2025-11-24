@@ -7,19 +7,33 @@ public class Enemy : MonoBehaviour
     public float hp = 5f;
     public int goldReward = 5;
 
-    void OnTriggerEnter2D(Collider2D other)
+    private Animator anim;
+
+    void Start()
     {
-        Debug.Log("Enemy Trigger Enter: " + other.name);
+        anim = GetComponent<Animator>();
     }
 
     public void TakeDamage(float damage)
     {
         hp -= damage;
+
+        // Hit 애니메이션
+        if (anim != null)
+            anim.SetTrigger("Hit");
+
         if (hp <= 0)
         {
-            Destroy(gameObject);
+            Die();
+        }
+    }
 
+    void Die()
+    {
+        if (SystemController.instance != null)
+        {
             SystemController.instance.AddGold(goldReward);
         }
+        Destroy(gameObject);
     }
 }
