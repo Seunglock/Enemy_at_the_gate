@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-
     private Animator anim;
+
+    [Header("Stats")]
     public float hp = 5f;
     public int goldReward = 5;
     public float moveSpeed = 5f;
@@ -14,19 +16,57 @@ public class Enemy : MonoBehaviour
     private float originalSpeed;
     private float currentSpeed;
 
+    private Transform[] path;
+    private int index = 0;
 
     void Start()
     {
-        originalSpeed = moveSpeed; // Enemy에서 쓰는 이동 속도 변수
+        originalSpeed = moveSpeed;
         currentSpeed = moveSpeed;
         maxHp = hp;
 
         anim = GetComponent<Animator>();
+
+        path = WaypointManager.instance.waypoints;
+    }
+
+    void Update()
+    {
+        Move();
+    }
+
+    void Move()
+    {
+        if (path == null || index >= path.Length) return;
+
+        Transform target = path[index];
+
+        transform.position = Vector3.MoveTowards(
+            transform.position,
+            target.position,
+            currentSpeed * Time.deltaTime
+        );
+
+        if (Vector3.Distance(transform.position, target.position) < 0.1f)
+        {
+            index++;
+
+            if (index >= path.Length)
+            {
+                ReachGoal();
+            }
+        }
+    }
+
+    void ReachGoal()
+    {
+        // 여기에 성 체력 감소 등 구현해도 됨
+        Destroy(gameObject);
     }
 
     public void ApplySlow(float slowPercent, float duration)
     {
-        StopAllCoroutines();  // 슬로우 중첩 방지
+        StopAllCoroutines();
         StartCoroutine(SlowEffect(slowPercent, duration));
     }
 
@@ -40,7 +80,8 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(float damage)
     {
         hp -= damage;
-        Debug.Log("Enemy health: " + name +":"+ hp);
+        UnityEngine.Debug.Log("Enemy health: " + name + ":" + hp);
+
         if (hp <= 0)
         {
             Die();
@@ -51,13 +92,14 @@ public class Enemy : MonoBehaviour
     {
         float damageAmount = maxHp * percent;
         hp -= damageAmount;
-        Debug.Log("Enemy health: " + name + ":" + hp);
+
+        UnityEngine.Debug.Log("Enemy health: " + name + ":" + hp);
+
         if (hp <= 0)
         {
             Die();
         }
     }
-
 
     void Die()
     {
@@ -65,6 +107,7 @@ public class Enemy : MonoBehaviour
         {
             SystemController.instance.AddGold(goldReward);
         }
+
         Destroy(gameObject);
     }
 }
