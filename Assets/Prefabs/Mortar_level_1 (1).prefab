@@ -125,6 +125,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3624714950938997844}
   - component: {fileID: 917150327424546773}
+  - component: {fileID: 1497488727}
+  - component: {fileID: 1497488728}
   m_Layer: 0
   m_Name: Mortar_level_1 (1)
   m_TagString: Untagged
@@ -201,3 +203,38 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &1497488727
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7606137063508186458}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 7.0806694
+--- !u!114 &1497488728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7606137063508186458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c0ba7735dd63a44dbd38262c7993422, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackRange: 8
+  attackCooldown: 2.5
+  directDamage: 5
+  splashDamage: 5
+  splashRadius: 2
+  firePoint: {fileID: 7519761311682189214}
+  mortarShellPrefab: {fileID: 8727635616905734291, guid: 1abb2bc40c5ff2446bef33dda81f19f0, type: 3}
