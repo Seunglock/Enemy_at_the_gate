@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-
+//eÆÄÀÏ ¾ø¾Ú
 public class SystemController : MonoBehaviour
 {
     public static SystemController instance;
