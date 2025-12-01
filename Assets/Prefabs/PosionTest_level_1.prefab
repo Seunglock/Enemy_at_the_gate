@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2204815134062804931}
   - component: {fileID: 5874170624687838163}
   - component: {fileID: 3233579375779959024}
+  - component: {fileID: 553583633}
   m_Layer: 0
   m_Name: PosionTest_level_1
   m_TagString: Untagged
@@ -96,12 +97,29 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 3.5334861
+--- !u!114 &553583633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 923835634568187241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48fceebdd6bff68428fd918310fab1c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackRange: 6
+  attackCooldown: 1.5
+  percentDamage: 0.2
+  firePoint: {fileID: 358678599663124111}
+  poisonBottlePrefab: {fileID: 8727635616905734291, guid: 7ae2b62e4901f4c479a0ff8205c5d276, type: 3}
 --- !u!1 &7248813751345786323
 GameObject:
   m_ObjectHideFlags: 0
