@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
 
     private Animator anim;
     public float hp = 5f;
-    public int goldReward = 5;
+    public int expReward = 5;
     public float moveSpeed = 5f;
 
     private float maxHp;
@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
-        originalSpeed = moveSpeed; // Enemy에서 쓰는 이동 속도 변수
+        originalSpeed = moveSpeed; // Enemy?�서 ?�는 ?�동 ?�도 변??
         currentSpeed = moveSpeed;
         maxHp = hp;
 
@@ -26,7 +26,7 @@ public class Enemy : MonoBehaviour
 
     public void ApplySlow(float slowPercent, float duration)
     {
-        StopAllCoroutines();  // 슬로우 중첩 방지
+        StopAllCoroutines();  // ?�로??중첩 방�?
         StartCoroutine(SlowEffect(slowPercent, duration));
     }
 
@@ -43,7 +43,13 @@ public class Enemy : MonoBehaviour
         Debug.Log("Enemy health: " + name +":"+ hp);
         if (hp <= 0)
         {
+
             Die();
+
+            Destroy(gameObject);
+
+            SystemController.instance.AddExp(expReward);
+
         }
     }
 
@@ -63,7 +69,7 @@ public class Enemy : MonoBehaviour
     {
         if (SystemController.instance != null)
         {
-            SystemController.instance.AddGold(goldReward);
+            SystemController.instance.AddGold(expReward);
         }
         Destroy(gameObject);
     }
