@@ -268,6 +268,8 @@ MonoBehaviour:
   spawnInterval: 2
   bossSpawnTime: 30
   pathIndex: 2
+  timer: 0
+  bossSpawned: 0
 --- !u!1001 &223121257
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1017,6 +1019,8 @@ MonoBehaviour:
   spawnInterval: 2
   bossSpawnTime: 10
   pathIndex: 0
+  timer: 0
+  bossSpawned: 0
 --- !u!1 &620098495
 GameObject:
   m_ObjectHideFlags: 0
@@ -41362,6 +41366,8 @@ MonoBehaviour:
   spawnInterval: 2
   bossSpawnTime: 30
   pathIndex: 4
+  timer: 0
+  bossSpawned: 0
 --- !u!1 &1085111979
 GameObject:
   m_ObjectHideFlags: 0
@@ -41776,6 +41782,8 @@ MonoBehaviour:
   spawnInterval: 2
   bossSpawnTime: 30
   pathIndex: 1
+  timer: 0
+  bossSpawned: 0
 --- !u!1 &1330636953
 GameObject:
   m_ObjectHideFlags: 0
@@ -41860,6 +41868,8 @@ MonoBehaviour:
   spawnInterval: 2
   bossSpawnTime: 30
   pathIndex: 3
+  timer: 0
+  bossSpawned: 0
 --- !u!1 &1356601946
 GameObject:
   m_ObjectHideFlags: 0
@@ -42086,7 +42096,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panel: {fileID: 1454936016}
-  inputBlockTime: 0.5
 --- !u!114 &1454936019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42571,7 +42580,10 @@ MonoBehaviour:
   mortarPrefab: {fileID: 7606137063508186458, guid: a758ae9c72fda4b4c83f5ace25cf96e5, type: 3}
   wizardPrefab: {fileID: 923835634568187241, guid: 73a24d5135d63b1479716f003a629a9e, type: 3}
   poisonPrefab: {fileID: 923835634568187241, guid: b6e617091f20a0e4fa60c30e1de0eed8, type: 3}
-  selectedTile: {fileID: 0}
+  arrowPrice: 50
+  mortarPrice: 70
+  wizardPrice: 90
+  poisonPrice: 100
 --- !u!1 &1719842680
 GameObject:
   m_ObjectHideFlags: 0
@@ -43046,6 +43058,7 @@ MonoBehaviour:
   zoomSpeed: 5
   minZoom: 3
   maxZoom: 15
+  cam: {fileID: 0}
 --- !u!1001 &1972174107
 PrefabInstance:
   m_ObjectHideFlags: 0

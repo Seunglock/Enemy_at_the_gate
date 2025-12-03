@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-//e파일 없앰
+
 public class SystemController : MonoBehaviour
 {
     public static SystemController instance;
@@ -11,10 +11,13 @@ public class SystemController : MonoBehaviour
     
     public float currentSpeed = 1.0f; // 기본 스피드
 
+    public int level = 1;
     public int exp = 0;
-    public int gold = 0;
+    public int maxExp = 50;
+    public int gold = 200;
 
     public GameObject pauseMenuPanel;
+    public GameObject levelUpPanel;
     public Text speedButtonText;
     public Text goldButtonText;
 
@@ -29,6 +32,7 @@ public class SystemController : MonoBehaviour
         // 시작 시 패널 끄기
         if (pauseMenuPanel != null)
             pauseMenuPanel.SetActive(false);
+        if (levelUpPanel != null) levelUpPanel.SetActive(false);
 
         // 초기 속도 설정
         currentSpeed = 1.0f;
@@ -40,6 +44,8 @@ public class SystemController : MonoBehaviour
 
     void Update()
     {
+        if (levelUpPanel != null && levelUpPanel.activeSelf) return;
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (pauseMenuPanel != null)
@@ -49,10 +55,58 @@ public class SystemController : MonoBehaviour
         }
     }
 
+    public void TogglePausePanel()
+    {
+        // 레벨업 패널이 켜져있으면 일시정지 패널을 열지 않음 (중복 방지)
+        if (levelUpPanel != null && levelUpPanel.activeSelf) return;
+
+        if (pauseMenuPanel != null)
+        {
+            // 켜져있으면 끄고, 꺼져있으면 켭니다.
+            // 패널이 켜질 때 패널에 붙은 스크립트(PausePanel)가 Time.timeScale을 0으로 만듭니다.
+            pauseMenuPanel.SetActive(!pauseMenuPanel.activeSelf);
+        }
+    }
+
+
     // 경험치 추가
     public void AddExp(int amount)
     {
         exp += amount;
+        CheckLevelUp();
+    }
+    void CheckLevelUp()
+    {
+        // 경험치가 목표치보다 많거나 같으면 레벨업
+        while (exp >= maxExp)
+        {
+            exp -= maxExp;      // 남은 경험치 이월
+            level++;            // 레벨 증가
+            maxExp += 40;       // 다음 필요 경험치 증가 (50 -> 90 -> 130...)
+
+            // 여기서 LevelUpPanel을 켜줍니다! (연동 핵심)
+            if (levelUpPanel != null)
+            {
+                levelUpPanel.SetActive(true);
+                // LevelUpPanel이 켜지면 그 스크립트(LevelUpPanelController)의 OnEnable이 실행되어
+                // 자동으로 게임이 멈추고 보상 목록이 뜹니다.
+            }
+        }
+    }
+
+    public bool TrySpendGold(int amount)
+    {
+        if (gold >= amount)
+        {
+            gold -= amount;
+            UpdateGoldText();
+            return true; // 구매 성공
+        }
+        else
+        {
+            Debug.Log($"골드가 부족합니다! (보유: {gold}, 필요: {amount})");
+            return false; // 구매 실패
+        }
     }
 
     // 골드 추가
@@ -91,6 +145,9 @@ public class SystemController : MonoBehaviour
         {
             currentSpeed = 1.0f;
         }
+
+        bool isPaused = (pauseMenuPanel != null && pauseMenuPanel.activeSelf);
+        bool isLevelUp = (levelUpPanel != null && levelUpPanel.activeSelf);
 
         if (pauseMenuPanel == null || !pauseMenuPanel.activeSelf)
         {

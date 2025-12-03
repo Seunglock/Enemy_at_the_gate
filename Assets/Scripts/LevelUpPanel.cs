@@ -7,7 +7,6 @@ public class LevelUpPanel : MonoBehaviour
 {
     public RewardController rewardController; // Inspector에서 연결
 
-    [Header("UI Elements")]
     public GameObject[] rewardButtons; // 보상 선택 버튼 3개 배열
     public Text[] rewardTexts;         // 각 버튼의 텍스트 (옵션)
 
