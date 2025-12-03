@@ -16,7 +16,7 @@ public class UIExpBar : MonoBehaviour
             originalSize = mask.rectTransform.rect.width;
         }
     }
-
+    //a
     void Update()
     {
         // SystemController가 없으면 실행하지 않음
