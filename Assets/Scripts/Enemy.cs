@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour
     private float currentSpeed;
 
 
+
     void Start()
     {
         originalSpeed = moveSpeed; // Enemy?ì„œ ?°ëŠ” ?´ë™ ?ë„ ë³€??
