@@ -99,6 +99,8 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
+        WaveManager.instance.UnregisterEnemy(this);
+
         if (SystemController.instance != null)
             SystemController.instance.AddGold(goldReward);
 

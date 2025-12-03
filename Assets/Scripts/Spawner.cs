@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour
@@ -15,23 +14,39 @@ public class Spawner : MonoBehaviour
     private float timer = 0f;
     private bool bossSpawned = false;
 
+    private bool activeThisWave = true;
+
     void Update()
     {
+        if (!activeThisWave)
+            return;
+
         timer += Time.deltaTime;
 
-        // 1) 일반 몬스터는 ~~bossSpawned와 상관없이~~ 계속 스폰
         if (timer >= spawnInterval)
         {
             SpawnRandomEnemy();
             timer = 0f;
         }
 
-        // 2) 보스 스폰은 딱 한 번
         if (!bossSpawned && Time.timeSinceLevelLoad >= bossSpawnTime)
         {
             SpawnBoss();
             bossSpawned = true;
         }
+    }
+
+    public void SetupForWave(int wave)
+    {
+        activeThisWave = true;
+
+        timer = 0f;
+        bossSpawned = false;
+
+        if (wave % 10 == 0)
+            bossSpawnTime = 2f;
+        else
+            bossSpawnTime = 9999f;
     }
 
     void SpawnRandomEnemy()
@@ -46,10 +61,7 @@ public class Spawner : MonoBehaviour
     void SpawnBoss()
     {
         if (bossEnemy == null)
-        {
-            UnityEngine.Debug.LogWarning("Boss Enemy is NULL!!");
-            return;   // 보스 null이어도 일반 몬스터 스폰은 계속됨
-        }
+            return;
 
         Spawn(bossEnemy);
     }
@@ -57,6 +69,7 @@ public class Spawner : MonoBehaviour
     void Spawn(GameObject prefab)
     {
         GameObject obj = Instantiate(prefab, transform.position, Quaternion.identity);
+
         Enemy e = obj.GetComponent<Enemy>();
         e.SetPath(WaypointManager.instance.GetPath(pathIndex));
     }
