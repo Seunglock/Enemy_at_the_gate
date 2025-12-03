@@ -10,8 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7691342771267786986}
   - component: {fileID: 8670599542085270043}
-  - component: {fileID: 615160471}
-  - component: {fileID: 615160470}
   m_Layer: 0
   m_Name: archer_level_2
   m_TagString: Untagged
@@ -87,39 +85,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &615160471
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1324818895353994991}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 4.4305267
---- !u!114 &615160470
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1324818895353994991}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c6a08bf8e2da22419a88ca2bd63e76f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackRange: 8
-  attackCooldown: 2
-  firePoint: {fileID: 1925389284967946369}
-  arrowPrefab: {fileID: 4111425245804094528, guid: d5cfceebbf7aed2428dd5e4318c8a5bd, type: 3}
-  damage: 2
 --- !u!1 &1895097773226440491
 GameObject:
   m_ObjectHideFlags: 0

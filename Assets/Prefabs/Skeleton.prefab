@@ -170,4 +170,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 5
   goldReward: 5
-  moveSpeed: 2
+  moveSpeed: 5
