@@ -1,42 +1,60 @@
 using UnityEngine;
+using System.Collections;
 
 public class TowerSelectUI : MonoBehaviour
 {
     public GameObject panel;
 
-    // UI 켜기
+    public float inputBlockTime = 0.5f;
+    private bool inputBlocked = false;
+
+    IEnumerator BlockInputRoutine()
+    {
+        inputBlocked = true;
+        yield return new WaitForSeconds(inputBlockTime);
+        inputBlocked = false;
+    }
+
     public void Show()
     {
         panel.SetActive(true);
+        StartCoroutine(BlockInputRoutine());
     }
 
-    // UI 끄기
     public void Hide()
     {
         panel.SetActive(false);
     }
 
-    // ---- 4개의 타워 버튼 ----
+    private bool CanClick()
+    {
+        return !inputBlocked;
+    }
+
     public void ClickArrow()
     {
+        if (!CanClick()) return;
         TowerPlacer.instance.SetSelectedTower("Arrow");
         Hide();
     }
 
     public void ClickMortar()
     {
+        if (!CanClick()) return;
         TowerPlacer.instance.SetSelectedTower("Mortar");
         Hide();
     }
 
     public void ClickWizard()
     {
+        if (!CanClick()) return;
         TowerPlacer.instance.SetSelectedTower("Wizard");
         Hide();
     }
 
     public void ClickPoison()
     {
+        if (!CanClick()) return;
         TowerPlacer.instance.SetSelectedTower("Poison");
         Hide();
     }
