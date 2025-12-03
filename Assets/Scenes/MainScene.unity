@@ -259,7 +259,7 @@ MonoBehaviour:
   - {fileID: 4863239117493695625, guid: 25f43e9fcc1a6394e88ed00d5204e4a2, type: 3}
   - {fileID: 5023781524240428375, guid: c289718342fbb644caea7f112c011ee9, type: 3}
   - {fileID: 8029475956315353709, guid: dd4ca0f0dc4310146a70ca5ae7819314, type: 3}
-  bossEnemy: {fileID: 0}
+  bossEnemy: {fileID: 4863239117493695625, guid: 6af7747159d774643ae4566f7d151e17, type: 3}
   spawnInterval: 2
   bossSpawnTime: 30
   pathIndex: 2
@@ -985,7 +985,7 @@ MonoBehaviour:
   - {fileID: 591274581731826533, guid: 56f5f00ceb7164245864f76fcc7c94b1, type: 3}
   bossEnemy: {fileID: 4863239117493695625, guid: 6af7747159d774643ae4566f7d151e17, type: 3}
   spawnInterval: 2
-  bossSpawnTime: 10
+  bossSpawnTime: 30
   pathIndex: 0
 --- !u!1 &620098495
 GameObject:
@@ -41313,7 +41313,7 @@ MonoBehaviour:
   - {fileID: 4863239117493695625, guid: 25f43e9fcc1a6394e88ed00d5204e4a2, type: 3}
   - {fileID: 5023781524240428375, guid: c289718342fbb644caea7f112c011ee9, type: 3}
   - {fileID: 8029475956315353709, guid: dd4ca0f0dc4310146a70ca5ae7819314, type: 3}
-  bossEnemy: {fileID: 0}
+  bossEnemy: {fileID: 4863239117493695625, guid: 6af7747159d774643ae4566f7d151e17, type: 3}
   spawnInterval: 2
   bossSpawnTime: 30
   pathIndex: 4
@@ -41727,7 +41727,7 @@ MonoBehaviour:
   - {fileID: 4863239117493695625, guid: 25f43e9fcc1a6394e88ed00d5204e4a2, type: 3}
   - {fileID: 5023781524240428375, guid: c289718342fbb644caea7f112c011ee9, type: 3}
   - {fileID: 8029475956315353709, guid: dd4ca0f0dc4310146a70ca5ae7819314, type: 3}
-  bossEnemy: {fileID: 0}
+  bossEnemy: {fileID: 4863239117493695625, guid: 6af7747159d774643ae4566f7d151e17, type: 3}
   spawnInterval: 2
   bossSpawnTime: 30
   pathIndex: 1
@@ -41811,7 +41811,7 @@ MonoBehaviour:
   - {fileID: 4863239117493695625, guid: 25f43e9fcc1a6394e88ed00d5204e4a2, type: 3}
   - {fileID: 5023781524240428375, guid: c289718342fbb644caea7f112c011ee9, type: 3}
   - {fileID: 8029475956315353709, guid: dd4ca0f0dc4310146a70ca5ae7819314, type: 3}
-  bossEnemy: {fileID: 0}
+  bossEnemy: {fileID: 4863239117493695625, guid: 6af7747159d774643ae4566f7d151e17, type: 3}
   spawnInterval: 2
   bossSpawnTime: 30
   pathIndex: 3
