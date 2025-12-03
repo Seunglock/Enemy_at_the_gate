@@ -6,7 +6,7 @@ public class WaypointManager : MonoBehaviour
 {
     public static WaypointManager instance;
 
-    // asdfaasdfsd12
+    // asdfaasdfsd
     public Transform[][] paths;
 
     void Awake()
