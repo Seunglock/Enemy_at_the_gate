@@ -8,19 +8,40 @@ public class MortarTower : MonoBehaviour
     public float attackCooldown = 2.5f;
 
     [Header("Damage Settings")]
-    public float directDamage = 3f;      // 직격 데미지
-    public float splashDamage = 1.5f;    // 스플래쉬 데미지
-    public float splashRadius = 2f;      // 스플래쉬 범위
+    public float directDamage = 3f;       // 직격 데미지 (기본값)
+    public float splashDamage = 1.5f;     // 스플래쉬 데미지 (기본값)
+    public float splashRadius = 2f;       // 스플래쉬 범위
 
     [Header("Projectile")]
     public Transform firePoint;
     public GameObject mortarShellPrefab;
 
+    private float baseDirectDamage;
+    private float baseSplashDamage;
+
     private float cooldownTimer = 0f;
     private List<Enemy> enemiesInRange = new List<Enemy>();
 
+
+    void Start()
+    {
+        // 기본 데미지 저장하여 강화 시 계속 참조
+        baseDirectDamage = directDamage;
+        baseSplashDamage = splashDamage;
+    }
+
+
     void Update()
     {
+        // ------------------------------
+        // 전역 강화 배율 적용
+        // ------------------------------
+        float multiplier = SystemController.instance.towerDamageMultiplier;
+
+        directDamage = baseDirectDamage * multiplier;
+        splashDamage = baseSplashDamage * multiplier;
+        // ------------------------------
+
         cooldownTimer -= Time.deltaTime;
 
         Enemy target = GetFrontEnemy();
@@ -32,19 +53,21 @@ public class MortarTower : MonoBehaviour
         }
     }
 
+
     void Shoot(Enemy target)
     {
         GameObject shell = Instantiate(mortarShellPrefab, firePoint.position, Quaternion.identity);
 
         MortarShell ms = shell.GetComponent<MortarShell>();
 
-        // --- 타워에서 설정한 데미지 값을 투사체로 전달 ---
+        // 강화된 데미지 전달
         ms.directDamage = directDamage;
         ms.splashDamage = splashDamage;
         ms.splashRadius = splashRadius;
 
         ms.SetTarget(target.transform);
     }
+
 
     Enemy GetFrontEnemy()
     {
@@ -59,6 +82,7 @@ public class MortarTower : MonoBehaviour
         }
         return front;
     }
+
 
     private void OnTriggerEnter2D(Collider2D other)
     {
