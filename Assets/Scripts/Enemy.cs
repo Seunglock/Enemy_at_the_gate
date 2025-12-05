@@ -24,8 +24,10 @@ public class Enemy : MonoBehaviour
         maxHp = hp;
 
         anim = GetComponent<Animator>();
-
         originalScale = transform.localScale;
+
+        if (WaveManager.instance != null)
+            WaveManager.instance.RegisterEnemy(this);
     }
 
     void Update()
@@ -56,15 +58,13 @@ public class Enemy : MonoBehaviour
             index++;
 
             if (index >= path.Length)
-            {
                 ReachGoal();
-            }
         }
     }
 
     void ReachGoal()
     {
-        Destroy(gameObject);
+        Die();
     }
 
     public void ApplySlow(float slowPercent, float duration)
@@ -99,6 +99,9 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
+        if (WaveManager.instance != null)
+            WaveManager.instance.UnregisterEnemy(this);
+
         if (SystemController.instance != null)
             SystemController.instance.AddGold(goldReward);
 

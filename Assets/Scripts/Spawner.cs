@@ -1,36 +1,73 @@
-using System;
-using System.Diagnostics;
 using UnityEngine;
+
+[System.Serializable]
+public class WaveRange
+{
+    public int startWave;
+    public int endWave;
+}
+
+[System.Serializable]
+public class BossRule
+{
+    public int wave;
+    public GameObject bossPrefab;
+}
 
 public class Spawner : MonoBehaviour
 {
     public GameObject[] normalEnemies;
-    public GameObject bossEnemy;
-
     public float spawnInterval = 2f;
-    public float bossSpawnTime = 30f;
-
     public int pathIndex;
 
-    private float timer = 0f;
-    private bool bossSpawned = false;
+    public WaveRange[] activeRanges;
+    public BossRule[] bossRules;
+
+    float timer = 0f;
+
+    public bool IsActiveThisWave(int wave)
+    {
+        foreach (var r in activeRanges)
+        {
+            if (wave >= r.startWave && wave <= r.endWave)
+                return true;
+        }
+        return false;
+    }
+
+    public void SetupForWave(int wave)
+    {
+        timer = 0f;
+
+        // 웨이브에 해당 안 하면 비활성화
+        bool active = IsActiveThisWave(wave);
+        gameObject.SetActive(active);
+
+        if (!active) return;
+
+        // 해당 웨이브에 보스가 지정되어 있다면 즉시 소환
+        foreach (var rule in bossRules)
+        {
+            if (rule.wave == wave && rule.bossPrefab != null)
+            {
+                Spawn(rule.bossPrefab);
+            }
+        }
+    }
 
     void Update()
     {
+        if (!gameObject.activeSelf) return;
+
+        // WaveManager가 웨이브 실행 중이 아닐 때는 스폰 금지
+        if (!WaveManager.instance.WaveRunning) return;
+
         timer += Time.deltaTime;
 
-        // 1) 일반 몬스터는 ~~bossSpawned와 상관없이~~ 계속 스폰
         if (timer >= spawnInterval)
         {
             SpawnRandomEnemy();
             timer = 0f;
-        }
-
-        // 2) 보스 스폰은 딱 한 번
-        if (!bossSpawned && Time.timeSinceLevelLoad >= bossSpawnTime)
-        {
-            SpawnBoss();
-            bossSpawned = true;
         }
     }
 
@@ -43,21 +80,13 @@ public class Spawner : MonoBehaviour
         Spawn(normalEnemies[idx]);
     }
 
-    void SpawnBoss()
-    {
-        if (bossEnemy == null)
-        {
-            UnityEngine.Debug.LogWarning("Boss Enemy is NULL!!");
-            return;   // 보스 null이어도 일반 몬스터 스폰은 계속됨
-        }
-
-        Spawn(bossEnemy);
-    }
-
     void Spawn(GameObject prefab)
     {
         GameObject obj = Instantiate(prefab, transform.position, Quaternion.identity);
+
         Enemy e = obj.GetComponent<Enemy>();
         e.SetPath(WaypointManager.instance.GetPath(pathIndex));
+
+        WaveManager.instance.RegisterEnemy(e);
     }
 }
