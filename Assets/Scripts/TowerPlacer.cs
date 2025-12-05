@@ -13,6 +13,12 @@ public class TowerPlacer : MonoBehaviour
     public GameObject wizardPrefab;
     public GameObject poisonPrefab;
 
+    //타워 가격
+    public int arrowPrice = 50;
+    public int mortarPrice = 70;
+    public int wizardPrice = 90;
+    public int poisonPrice = 100;
+
     private Tile selectedTile;
     private string selectedTower = "";
 
@@ -40,29 +46,40 @@ public class TowerPlacer : MonoBehaviour
         if (selectedTile == null) return;
 
         GameObject prefab = null;
+        int cost = 0;
 
         switch (selectedTower)
         {
             case "Arrow":
                 prefab = arrowPrefab;
+                cost = arrowPrice;
                 break;
 
             case "Mortar":
                 prefab = mortarPrefab;
+                cost = mortarPrice;
                 break;
 
             case "Wizard":
                 prefab = wizardPrefab;
+                cost = wizardPrice;
                 break;
 
             case "Poison":
                 prefab = poisonPrefab;
+                cost = poisonPrice;
                 break;
         }
 
         if (prefab == null)
         {
             Debug.LogError("타워 프리팹이 연결되지 않음!");
+            return;
+        }
+
+        if (SystemController.instance == null || !SystemController.instance.TrySpendGold(cost))
+        {
+            Debug.Log("건설 실패: 골드가 부족합니다.");
             return;
         }
 

@@ -11,10 +11,39 @@ public class ArrowTower : MonoBehaviour
     public GameObject arrowPrefab;     // 화살 프리팹
     public float damage = 1f;          // 화살 데미지
 
+    private float originalCooldown;
+    private float originalDamage;
+
     private float cooldownTimer = 0f;
 
     // 현재 감지된 적 리스트
     private List<Enemy> enemiesInRange = new List<Enemy>();
+
+    void Start() // Start 추가
+    {
+        // 게임 시작 시 원래 능력치 저장
+        originalCooldown = attackCooldown;
+        originalDamage = damage;
+    }
+
+    //버프 받았을 시 반응할 수 있게 추가
+    public void ActivateBuff(float duration)
+    {
+        StopCoroutine("BuffRoutine");
+        StartCoroutine(BuffRoutine(duration));
+    }
+    //버프 설정
+     IEnumerator BuffRoutine(float duration)
+    {
+        attackCooldown = originalCooldown * 0.5f;
+        damage = originalCooldown * 2f;
+
+        yield return new WaitForSeconds(duration);
+
+        attackCooldown = originalCooldown;
+        damage = originalDamage;
+
+    }
 
     void Update()
     {
