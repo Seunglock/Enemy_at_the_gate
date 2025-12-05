@@ -8,11 +8,41 @@ public class ShopController : MonoBehaviour
     public int expCost = 40;
     public int buffCost = 300;
     public int ultimateCost = 500;
+    public int barricadeCost = 100;
 
     [Header("Shop Values")]
     public int expAmount = 40;       // 구매 시 얻는 경험치
     public float buffDuration = 10f; // 버프 지속 시간
     public float ultimateDamage = 100f; // 광역 데미지
+
+    public GameObject barricadePrefab;   // 소환할 바리케이드 프리팹
+    public Transform barricadeSpawnPoint; // 소환될 "지정한 위치" (빈 오브젝트)
+    public float barricadeLifeTime = 5f; // 유지시간
+    private bool isBarricadeActive = false; //바리케이드 중복방지용
+
+    public GameObject towerSelectPanel;     // 타워 선택 패널
+    public GameObject[] uiImagesToHide;     // 패널이 켜질 때 숨길 UI 이미지들 (배열)
+
+    public void SetTowerSelectMode(bool isOpen)
+    {
+        // 1. 타워 선택 패널 활성화/비활성화
+        if (towerSelectPanel != null)
+        {
+            towerSelectPanel.SetActive(isOpen);
+        }
+
+        // 2. 특정 이미지들 반대로 설정 (패널이 켜지면 -> 이미지는 꺼짐)
+        if (uiImagesToHide != null)
+        {
+            foreach (GameObject obj in uiImagesToHide)
+            {
+                if (obj != null)
+                {
+                    obj.SetActive(!isOpen); // isOpen의 반대 상태로 설정
+                }
+            }
+        }
+    }
 
     // 1. 경험치 구매
     public void BuyExp()
@@ -61,5 +91,51 @@ public class ShopController : MonoBehaviour
             }
             Debug.Log("광역 필살기 시전!");
         }
+    }
+
+    public void BuyBarricade()
+    {
+        // 1. 이미 바리케이드가 있다면 구매 불가 (선택사항)
+        if (isBarricadeActive)
+        {
+            Debug.Log("이미 바리케이드가 설치되어 있습니다!");
+            return;
+        }
+
+        // 2. 골드 지불 확인
+        if (SystemController.instance.TrySpendGold(barricadeCost))
+        {
+            // 3. 지정된 위치(spawnPoint)가 없으면 에러 방지
+            if (barricadeSpawnPoint == null)
+            {
+                Debug.LogError("바리케이드 소환 위치(Spawn Point)가 지정되지 않았습니다!");
+                return;
+            }
+
+            // 4. 소환 및 타이머 시작
+            StartCoroutine(BarricadeRoutine());
+        }
+    }
+
+    // 바리케이드 생성 -> 대기 -> 삭제 코루틴
+    IEnumerator BarricadeRoutine()
+    {
+        isBarricadeActive = true;
+
+        // 생성
+        GameObject barricade = Instantiate(barricadePrefab, barricadeSpawnPoint.position, Quaternion.identity);
+        Debug.Log("바리케이드 설치됨!");
+
+        // 5초 대기
+        yield return new WaitForSeconds(barricadeLifeTime);
+
+        // 삭제
+        if (barricade != null)
+        {
+            Destroy(barricade);
+        }
+
+        isBarricadeActive = false;
+        Debug.Log("바리케이드 사라짐!");
     }
 }
