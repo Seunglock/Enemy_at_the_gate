@@ -1007,20 +1007,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 551139872}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f309ae77f21a3c548a939336e1b97da8, type: 3}
+  m_Script: {fileID: 11500000, guid: 0df22f374d844be4a939b2e943c06a7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  normalEnemies:
-  - {fileID: 8029475956315353709, guid: dd4ca0f0dc4310146a70ca5ae7819314, type: 3}
-  - {fileID: 5023781524240428375, guid: c289718342fbb644caea7f112c011ee9, type: 3}
-  - {fileID: 4863239117493695625, guid: 25f43e9fcc1a6394e88ed00d5204e4a2, type: 3}
-  - {fileID: 591274581731826533, guid: 56f5f00ceb7164245864f76fcc7c94b1, type: 3}
-  bossEnemy: {fileID: 4863239117493695625, guid: 6af7747159d774643ae4566f7d151e17, type: 3}
+  normalEnemies: []
+  bossEnemy: {fileID: 0}
   spawnInterval: 2
-  bossSpawnTime: 10
+  bossSpawnTime: 30
   pathIndex: 0
-  timer: 0
-  bossSpawned: 0
 --- !u!1 &620098495
 GameObject:
   m_ObjectHideFlags: 0
@@ -42198,7 +42192,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1508568270}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35b0ff0228b0b5748ba3b7d225d60cdf, type: 3}
+  m_Script: {fileID: 11500000, guid: a307705963dcd9245ae4baed7fe39826, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1508568272
@@ -43051,14 +43045,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1951080431}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64ab0152236a61b428bb540b2ce81121, type: 3}
+  m_Script: {fileID: 11500000, guid: 4fdb0fb1e5196c447af3096de61bfb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 8
   zoomSpeed: 5
   minZoom: 3
   maxZoom: 15
-  cam: {fileID: 0}
 --- !u!1001 &1972174107
 PrefabInstance:
   m_ObjectHideFlags: 0
