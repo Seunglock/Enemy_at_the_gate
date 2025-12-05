@@ -1,25 +1,59 @@
 using System;
 using UnityEngine;
 
+[System.Serializable]
+public class WaveRange
+{
+    public int startWave;
+    public int endWave;
+}
+
+[System.Serializable]
+public class BossRule
+{
+    public int wave;
+    public GameObject bossPrefab;
+}
+
 public class Spawner : MonoBehaviour
 {
     public GameObject[] normalEnemies;
-    public GameObject bossEnemy;
-
     public float spawnInterval = 2f;
-    public float bossSpawnTime = 30f;
-
     public int pathIndex;
 
-    private float timer = 0f;
-    private bool bossSpawned = false;
+    public WaveRange[] activeRanges;
+    public BossRule[] bossRules;
 
-    private bool activeThisWave = true;
+    float timer = 0f;
+
+    public bool IsActiveThisWave(int wave)
+    {
+        foreach (var r in activeRanges)
+        {
+            if (wave >= r.startWave && wave <= r.endWave)
+                return true;
+        }
+        return false;
+    }
+
+    public void SetupForWave(int wave)
+    {
+        timer = 0f;
+        gameObject.SetActive(IsActiveThisWave(wave));
+
+        foreach (var rule in bossRules)
+        {
+            if (rule.wave == wave && rule.bossPrefab != null)
+            {
+                Spawn(rule.bossPrefab);
+            }
+        }
+    }
 
     void Update()
     {
-        if (!activeThisWave)
-            return;
+        if (!gameObject.activeSelf) return;
+        if (!WaveManager.instance.WaveRunning) return;
 
         timer += Time.deltaTime;
 
@@ -28,25 +62,6 @@ public class Spawner : MonoBehaviour
             SpawnRandomEnemy();
             timer = 0f;
         }
-
-        if (!bossSpawned && Time.timeSinceLevelLoad >= bossSpawnTime)
-        {
-            SpawnBoss();
-            bossSpawned = true;
-        }
-    }
-
-    public void SetupForWave(int wave)
-    {
-        activeThisWave = true;
-
-        timer = 0f;
-        bossSpawned = false;
-
-        if (wave % 10 == 0)
-            bossSpawnTime = 2f;
-        else
-            bossSpawnTime = 9999f;
     }
 
     void SpawnRandomEnemy()
@@ -58,19 +73,11 @@ public class Spawner : MonoBehaviour
         Spawn(normalEnemies[idx]);
     }
 
-    void SpawnBoss()
-    {
-        if (bossEnemy == null)
-            return;
-
-        Spawn(bossEnemy);
-    }
-
     void Spawn(GameObject prefab)
     {
-        GameObject obj = Instantiate(prefab, transform.position, Quaternion.identity);
-
+        GameObject obj = UnityEngine.Object.Instantiate(prefab, transform.position, Quaternion.identity);
         Enemy e = obj.GetComponent<Enemy>();
         e.SetPath(WaypointManager.instance.GetPath(pathIndex));
+        WaveManager.instance.RegisterEnemy(e);
     }
 }

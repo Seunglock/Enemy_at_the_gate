@@ -11,10 +11,14 @@ public class WaveManager : MonoBehaviour
     public int maxWave = 60;
 
     public int currentWave = 1;
-    private float waveTimer = 0f;
-    private bool waveRunning = false;
+    float waveTimer = 0f;
+    bool waveRunning = false;
 
-    private List<Enemy> aliveEnemies = new List<Enemy>();
+    bool spawnedSomethingThisWave = false;
+
+    List<Enemy> aliveEnemies = new List<Enemy>();
+
+    public bool WaveRunning => waveRunning;
 
     void Awake()
     {
@@ -28,13 +32,16 @@ public class WaveManager : MonoBehaviour
 
     void Update()
     {
-        if (!waveRunning) return;
+        if (!waveRunning)
+            return;
 
         waveTimer += Time.deltaTime;
 
+        UnityEngine.Debug.Log("Wave: " + currentWave + " Time: " + waveTimer);
+
         aliveEnemies.RemoveAll(e => e == null);
 
-        if (aliveEnemies.Count == 0)
+        if (spawnedSomethingThisWave && aliveEnemies.Count == 0)
         {
             NextWave();
             return;
@@ -49,6 +56,9 @@ public class WaveManager : MonoBehaviour
     public void RegisterEnemy(Enemy e)
     {
         aliveEnemies.Add(e);
+
+        spawnedSomethingThisWave = true;
+
         float scale = 1f + (currentWave - 1) * 0.25f;
         e.hp *= scale;
     }
@@ -62,17 +72,17 @@ public class WaveManager : MonoBehaviour
     {
         waveRunning = true;
         waveTimer = 0f;
+        spawnedSomethingThisWave = false;
 
         foreach (Spawner sp in spawners)
-            sp.gameObject.SetActive(true);
-
-        foreach (Spawner sp in spawners)
-            sp.SetupForWave(currentWave);
+            if (sp != null)
+                sp.SetupForWave(currentWave);
     }
 
     void NextWave()
     {
         currentWave++;
+
         if (currentWave > maxWave)
         {
             waveRunning = false;
