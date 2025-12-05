@@ -256,18 +256,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 78810883}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f309ae77f21a3c548a939336e1b97da8, type: 3}
+  m_Script: {fileID: 11500000, guid: 0df22f374d844be4a939b2e943c06a7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   normalEnemies:
-  - {fileID: 591274581731826533, guid: 56f5f00ceb7164245864f76fcc7c94b1, type: 3}
-  - {fileID: 4863239117493695625, guid: 25f43e9fcc1a6394e88ed00d5204e4a2, type: 3}
-  - {fileID: 5023781524240428375, guid: c289718342fbb644caea7f112c011ee9, type: 3}
   - {fileID: 8029475956315353709, guid: dd4ca0f0dc4310146a70ca5ae7819314, type: 3}
-  bossEnemy: {fileID: 0}
+  - {fileID: 5023781524240428375, guid: c289718342fbb644caea7f112c011ee9, type: 3}
+  - {fileID: 4863239117493695625, guid: 25f43e9fcc1a6394e88ed00d5204e4a2, type: 3}
+  - {fileID: 591274581731826533, guid: 56f5f00ceb7164245864f76fcc7c94b1, type: 3}
   spawnInterval: 2
-  bossSpawnTime: 30
   pathIndex: 2
+  activeRanges:
+  - startWave: 3
+    endWave: 6
+  bossRules: []
 --- !u!1001 &223121257
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1005,7 +1007,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 551139872}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f309ae77f21a3c548a939336e1b97da8, type: 3}
+  m_Script: {fileID: 11500000, guid: 0df22f374d844be4a939b2e943c06a7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   normalEnemies:
@@ -1013,10 +1015,14 @@ MonoBehaviour:
   - {fileID: 5023781524240428375, guid: c289718342fbb644caea7f112c011ee9, type: 3}
   - {fileID: 4863239117493695625, guid: 25f43e9fcc1a6394e88ed00d5204e4a2, type: 3}
   - {fileID: 591274581731826533, guid: 56f5f00ceb7164245864f76fcc7c94b1, type: 3}
-  bossEnemy: {fileID: 4863239117493695625, guid: 6af7747159d774643ae4566f7d151e17, type: 3}
   spawnInterval: 2
-  bossSpawnTime: 10
   pathIndex: 0
+  activeRanges:
+  - startWave: 1
+    endWave: 10
+  bossRules:
+  - wave: 5
+    bossPrefab: {fileID: 4863239117493695625, guid: 6af7747159d774643ae4566f7d151e17, type: 3}
 --- !u!1 &620098495
 GameObject:
   m_ObjectHideFlags: 0
@@ -1205,7 +1211,7 @@ RectTransform:
   m_Children:
   - {fileID: 1454936017}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -41350,18 +41356,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 1036590117}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f309ae77f21a3c548a939336e1b97da8, type: 3}
+  m_Script: {fileID: 11500000, guid: 0df22f374d844be4a939b2e943c06a7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   normalEnemies:
-  - {fileID: 591274581731826533, guid: 56f5f00ceb7164245864f76fcc7c94b1, type: 3}
-  - {fileID: 4863239117493695625, guid: 25f43e9fcc1a6394e88ed00d5204e4a2, type: 3}
-  - {fileID: 5023781524240428375, guid: c289718342fbb644caea7f112c011ee9, type: 3}
   - {fileID: 8029475956315353709, guid: dd4ca0f0dc4310146a70ca5ae7819314, type: 3}
-  bossEnemy: {fileID: 0}
+  - {fileID: 5023781524240428375, guid: c289718342fbb644caea7f112c011ee9, type: 3}
+  - {fileID: 4863239117493695625, guid: 25f43e9fcc1a6394e88ed00d5204e4a2, type: 3}
+  - {fileID: 591274581731826533, guid: 56f5f00ceb7164245864f76fcc7c94b1, type: 3}
   spawnInterval: 2
-  bossSpawnTime: 30
   pathIndex: 4
+  activeRanges:
+  - startWave: 5
+    endWave: 8
+  bossRules: []
 --- !u!1 &1085111979
 GameObject:
   m_ObjectHideFlags: 0
@@ -41416,8 +41424,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1146213312}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 21.850584, y: -14.200146, z: 0.37289524}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 18.799173, y: -8.726982, z: 0.0357053}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -41426,8 +41434,8 @@ Transform:
   - {fileID: 78810884}
   - {fileID: 1356215775}
   - {fileID: 1036590118}
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_Father: {fileID: 1779192975}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1184874931
 GameObject:
@@ -41460,7 +41468,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1184874933
 MonoBehaviour:
@@ -41764,18 +41772,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 1312260998}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f309ae77f21a3c548a939336e1b97da8, type: 3}
+  m_Script: {fileID: 11500000, guid: 0df22f374d844be4a939b2e943c06a7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   normalEnemies:
-  - {fileID: 591274581731826533, guid: 56f5f00ceb7164245864f76fcc7c94b1, type: 3}
-  - {fileID: 4863239117493695625, guid: 25f43e9fcc1a6394e88ed00d5204e4a2, type: 3}
-  - {fileID: 5023781524240428375, guid: c289718342fbb644caea7f112c011ee9, type: 3}
   - {fileID: 8029475956315353709, guid: dd4ca0f0dc4310146a70ca5ae7819314, type: 3}
-  bossEnemy: {fileID: 0}
+  - {fileID: 5023781524240428375, guid: c289718342fbb644caea7f112c011ee9, type: 3}
+  - {fileID: 4863239117493695625, guid: 25f43e9fcc1a6394e88ed00d5204e4a2, type: 3}
+  - {fileID: 591274581731826533, guid: 56f5f00ceb7164245864f76fcc7c94b1, type: 3}
   spawnInterval: 2
-  bossSpawnTime: 30
   pathIndex: 1
+  activeRanges:
+  - startWave: 2
+    endWave: 5
+  bossRules: []
 --- !u!1 &1330636953
 GameObject:
   m_ObjectHideFlags: 0
@@ -41848,18 +41858,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 1356215774}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f309ae77f21a3c548a939336e1b97da8, type: 3}
+  m_Script: {fileID: 11500000, guid: 0df22f374d844be4a939b2e943c06a7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   normalEnemies:
-  - {fileID: 591274581731826533, guid: 56f5f00ceb7164245864f76fcc7c94b1, type: 3}
-  - {fileID: 4863239117493695625, guid: 25f43e9fcc1a6394e88ed00d5204e4a2, type: 3}
-  - {fileID: 5023781524240428375, guid: c289718342fbb644caea7f112c011ee9, type: 3}
   - {fileID: 8029475956315353709, guid: dd4ca0f0dc4310146a70ca5ae7819314, type: 3}
-  bossEnemy: {fileID: 0}
+  - {fileID: 5023781524240428375, guid: c289718342fbb644caea7f112c011ee9, type: 3}
+  - {fileID: 4863239117493695625, guid: 25f43e9fcc1a6394e88ed00d5204e4a2, type: 3}
+  - {fileID: 591274581731826533, guid: 56f5f00ceb7164245864f76fcc7c94b1, type: 3}
   spawnInterval: 2
-  bossSpawnTime: 30
   pathIndex: 3
+  activeRanges:
+  - startWave: 4
+    endWave: 7
+  bossRules: []
 --- !u!1 &1356601946
 GameObject:
   m_ObjectHideFlags: 0
@@ -42086,7 +42098,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panel: {fileID: 1454936016}
-  inputBlockTime: 0.5
+  arrowBtn: {fileID: 0}
+  mortarBtn: {fileID: 0}
+  wizardBtn: {fileID: 0}
+  poisonBtn: {fileID: 0}
+  startX: -355
+  startY: -177
+  spacing: 120
 --- !u!114 &1454936019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42189,7 +42207,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1508568270}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35b0ff0228b0b5748ba3b7d225d60cdf, type: 3}
+  m_Script: {fileID: 11500000, guid: a307705963dcd9245ae4baed7fe39826, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1508568272
@@ -42552,7 +42570,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1711235539
 MonoBehaviour:
@@ -42571,7 +42589,10 @@ MonoBehaviour:
   mortarPrefab: {fileID: 7606137063508186458, guid: a758ae9c72fda4b4c83f5ace25cf96e5, type: 3}
   wizardPrefab: {fileID: 923835634568187241, guid: 73a24d5135d63b1479716f003a629a9e, type: 3}
   poisonPrefab: {fileID: 923835634568187241, guid: b6e617091f20a0e4fa60c30e1de0eed8, type: 3}
-  selectedTile: {fileID: 0}
+  arrowPrice: 50
+  mortarPrice: 70
+  wizardPrice: 90
+  poisonPrice: 100
 --- !u!1 &1719842680
 GameObject:
   m_ObjectHideFlags: 0
@@ -42616,6 +42637,60 @@ Transform:
   - {fileID: 840785769}
   m_Father: {fileID: 0}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1779192973
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1779192975}
+  - component: {fileID: 1779192974}
+  m_Layer: 0
+  m_Name: GamaManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1779192974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1779192973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f2c40a7d752a9d4289a6f683ea0c3bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawners:
+  - {fileID: 551139874}
+  - {fileID: 1312261000}
+  - {fileID: 78810885}
+  - {fileID: 1356215776}
+  - {fileID: 1036590119}
+  waveDuration: 5
+  maxWave: 60
+  currentWave: 1
+--- !u!4 &1779192975
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1779192973}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.05141, y: -5.473163, z: 0.33718994}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1146213313}
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1795295597
 PrefabInstance:
@@ -42943,7 +43018,7 @@ Transform:
   - {fileID: 223121258}
   - {fileID: 39642276}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1951080431
 GameObject:
@@ -43039,7 +43114,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1951080431}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64ab0152236a61b428bb540b2ce81121, type: 3}
+  m_Script: {fileID: 11500000, guid: 4fdb0fb1e5196c447af3096de61bfb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 8
