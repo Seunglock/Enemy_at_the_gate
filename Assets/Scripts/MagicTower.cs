@@ -4,25 +4,37 @@ using UnityEngine;
 public class MagicTower : MonoBehaviour
 {
     [Header("Tower Settings")]
-    public float attackRange = 6f;          // 사거리
-    public float attackCooldown = 1.2f;     // 공격 속도
-    public float damage = 2f;               // 기본 데미지
+    public float attackRange = 6f;
+    public float attackCooldown = 1.2f;
+    public float damage = 2f;   // 기본 데미지
 
     [Header("Projectile")]
     public Transform firePoint;
-    public GameObject iceMagicPrefab;       // IceMagic 프리팹
+    public GameObject iceMagicPrefab;
 
+    private float baseDamage;
     private float cooldownTimer = 0f;
-
     private List<Enemy> enemiesInRange = new List<Enemy>();
+
+
+    void Start()
+    {
+        baseDamage = damage;   // 기본 데미지 저장
+    }
 
 
     void Update()
     {
+        // ------------------------------------------------
+        // 전역 타워 강화 배수 적용 (SystemController)
+        // ------------------------------------------------
+        float multiplier = SystemController.instance.towerDamageMultiplier;
+        damage = baseDamage * multiplier;
+        // ------------------------------------------------
+
         cooldownTimer -= Time.deltaTime;
 
         Enemy target = GetFrontEnemy();
-
         if (target != null && cooldownTimer <= 0f)
         {
             Shoot(target);
@@ -36,7 +48,7 @@ public class MagicTower : MonoBehaviour
         GameObject proj = Instantiate(iceMagicPrefab, firePoint.position, Quaternion.identity);
 
         IceMagic ice = proj.GetComponent<IceMagic>();
-        ice.damage = damage;
+        ice.damage = damage;  // 강화된 데미지 적용
         ice.SetTarget(target.transform);
     }
 
@@ -62,7 +74,6 @@ public class MagicTower : MonoBehaviour
         if (other.CompareTag("Enemy"))
         {
             Enemy e = other.GetComponent<Enemy>();
-
             if (e != null && !enemiesInRange.Contains(e))
                 enemiesInRange.Add(e);
         }
@@ -74,7 +85,6 @@ public class MagicTower : MonoBehaviour
         if (other.CompareTag("Enemy"))
         {
             Enemy e = other.GetComponent<Enemy>();
-
             if (e != null && enemiesInRange.Contains(e))
                 enemiesInRange.Remove(e);
         }
@@ -85,12 +95,9 @@ public class MagicTower : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            UnityEngine.Debug.Log("Magic stay");
             Enemy e = other.GetComponent<Enemy>();
-
             if (e != null && !enemiesInRange.Contains(e))
                 enemiesInRange.Add(e);
         }
     }
-
 }
