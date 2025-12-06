@@ -267,9 +267,13 @@ MonoBehaviour:
   spawnInterval: 2
   pathIndex: 2
   activeRanges:
-  - startWave: 3
-    endWave: 6
-  bossRules: []
+  - startWave: 1
+    endWave: 50
+  bossRules:
+  - wave: 30
+    bossPrefab: {fileID: 5023781524240428375, guid: f084825728523c94f8ea6f0dfcf59152, type: 3}
+  - wave: 3
+    bossPrefab: {fileID: 8029475956315353709, guid: a83c75d8b9469fc4f8d2546387b09be1, type: 3}
 --- !u!1001 &223121257
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1018,11 +1022,13 @@ MonoBehaviour:
   spawnInterval: 2
   pathIndex: 0
   activeRanges:
-  - startWave: 1
-    endWave: 10
+  - startWave: 21
+    endWave: 50
   bossRules:
-  - wave: 5
+  - wave: 30
     bossPrefab: {fileID: 4863239117493695625, guid: 6af7747159d774643ae4566f7d151e17, type: 3}
+  - wave: 50
+    bossPrefab: {fileID: 591274581731826533, guid: 3edb93ce982d27f4eb22b761fc132fdb, type: 3}
 --- !u!1 &620098495
 GameObject:
   m_ObjectHideFlags: 0
@@ -41369,7 +41375,11 @@ MonoBehaviour:
   activeRanges:
   - startWave: 5
     endWave: 8
-  bossRules: []
+  bossRules:
+  - wave: 40
+    bossPrefab: {fileID: 4863239117493695625, guid: 6af7747159d774643ae4566f7d151e17, type: 3}
+  - wave: 50
+    bossPrefab: {fileID: 591274581731826533, guid: 3edb93ce982d27f4eb22b761fc132fdb, type: 3}
 --- !u!1 &1085111979
 GameObject:
   m_ObjectHideFlags: 0
@@ -41783,9 +41793,17 @@ MonoBehaviour:
   spawnInterval: 2
   pathIndex: 1
   activeRanges:
-  - startWave: 2
-    endWave: 5
-  bossRules: []
+  - startWave: 1
+    endWave: 50
+  bossRules:
+  - wave: 20
+    bossPrefab: {fileID: 4863239117493695625, guid: 6af7747159d774643ae4566f7d151e17, type: 3}
+  - wave: 40
+    bossPrefab: {fileID: 4863239117493695625, guid: 6af7747159d774643ae4566f7d151e17, type: 3}
+  - wave: 10
+    bossPrefab: {fileID: 591274581731826533, guid: 3edb93ce982d27f4eb22b761fc132fdb, type: 3}
+  - wave: 2
+    bossPrefab: {fileID: 5023781524240428375, guid: f084825728523c94f8ea6f0dfcf59152, type: 3}
 --- !u!1 &1330636953
 GameObject:
   m_ObjectHideFlags: 0
@@ -41869,9 +41887,13 @@ MonoBehaviour:
   spawnInterval: 2
   pathIndex: 3
   activeRanges:
-  - startWave: 4
-    endWave: 7
-  bossRules: []
+  - startWave: 11
+    endWave: 50
+  bossRules:
+  - wave: 20
+    bossPrefab: {fileID: 591274581731826533, guid: 3edb93ce982d27f4eb22b761fc132fdb, type: 3}
+  - wave: 50
+    bossPrefab: {fileID: 5023781524240428375, guid: f084825728523c94f8ea6f0dfcf59152, type: 3}
 --- !u!1 &1356601946
 GameObject:
   m_ObjectHideFlags: 0
@@ -42667,6 +42689,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f2c40a7d752a9d4289a6f683ea0c3bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waveText: {fileID: 0}
+  scoreText: {fileID: 0}
   spawners:
   - {fileID: 551139874}
   - {fileID: 1312261000}
@@ -42676,6 +42700,7 @@ MonoBehaviour:
   waveDuration: 5
   maxWave: 60
   currentWave: 1
+  totalEnemiesDefeated: 0
 --- !u!4 &1779192975
 Transform:
   m_ObjectHideFlags: 0
@@ -43121,6 +43146,8 @@ MonoBehaviour:
   zoomSpeed: 5
   minZoom: 3
   maxZoom: 15
+  enableMouseDrag: 1
+  sensitivityMultiplier: 1
 --- !u!1001 &1972174107
 PrefabInstance:
   m_ObjectHideFlags: 0

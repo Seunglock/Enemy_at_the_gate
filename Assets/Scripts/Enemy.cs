@@ -1,3 +1,4 @@
+﻿using System.Collections;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -17,6 +18,9 @@ public class Enemy : MonoBehaviour
 
     private Vector3 originalScale;
 
+    private Coroutine slowCoroutine;
+    private Coroutine speedBoostCoroutine;
+
     void Start()
     {
         originalSpeed = moveSpeed;
@@ -27,7 +31,9 @@ public class Enemy : MonoBehaviour
         originalScale = transform.localScale;
 
         if (WaveManager.instance != null)
+        {
             WaveManager.instance.RegisterEnemy(this);
+        }
     }
 
     void Update()
@@ -58,26 +64,48 @@ public class Enemy : MonoBehaviour
             index++;
 
             if (index >= path.Length)
+            {
                 ReachGoal();
+            }
         }
     }
 
     void ReachGoal()
     {
-        Die();
+        Die(false);
     }
 
     public void ApplySlow(float slowPercent, float duration)
     {
-        StopAllCoroutines();
-        StartCoroutine(SlowEffect(slowPercent, duration));
+        if (slowCoroutine != null)
+            StopCoroutine(slowCoroutine);
+
+        slowCoroutine = StartCoroutine(SlowEffect(slowPercent, duration));
     }
 
-    System.Collections.IEnumerator SlowEffect(float slowPercent, float duration)
+    IEnumerator SlowEffect(float slowPercent, float duration)
     {
         currentSpeed = originalSpeed * (1f - slowPercent);
         yield return new WaitForSeconds(duration);
         currentSpeed = originalSpeed;
+        slowCoroutine = null;
+    }
+
+    public void ApplyTemporarySpeedBoost(float multiplier, float duration)
+    {
+        if (speedBoostCoroutine != null)
+            StopCoroutine(speedBoostCoroutine);
+
+        speedBoostCoroutine = StartCoroutine(SpeedBoost(multiplier, duration));
+    }
+
+    IEnumerator SpeedBoost(float multiplier, float duration)
+    {
+        float before = currentSpeed;
+        currentSpeed = originalSpeed * multiplier;
+        yield return new WaitForSeconds(duration);
+        currentSpeed = originalSpeed;
+        speedBoostCoroutine = null;
     }
 
     public void TakeDamage(float damage)
@@ -85,7 +113,7 @@ public class Enemy : MonoBehaviour
         hp -= damage;
 
         if (hp <= 0)
-            Die();
+            Die(true);
     }
 
     public void TakePercentDamage(float percent)
@@ -94,15 +122,17 @@ public class Enemy : MonoBehaviour
         hp -= damageAmount;
 
         if (hp <= 0)
-            Die();
+            Die(true);
     }
 
-    void Die()
+    void Die(bool giveGold)
     {
         if (WaveManager.instance != null)
+        {
             WaveManager.instance.UnregisterEnemy(this);
+        }
 
-        if (SystemController.instance != null)
+        if (giveGold && SystemController.instance != null)
             SystemController.instance.AddGold(goldReward);
 
         Destroy(gameObject);

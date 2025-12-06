@@ -1,9 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
-
+using TMPro;
 public class WaveManager : MonoBehaviour
 {
     public static WaveManager instance;
+
+    public TextMeshProUGUI waveText;  // 웨이브 표시용 TMP 연결
+    public TextMeshProUGUI scoreText; // 킬 수(점수) 표시용 TMP 연결
 
     public Spawner[] spawners;
 
@@ -16,6 +19,8 @@ public class WaveManager : MonoBehaviour
 
     bool spawnedSomethingThisWave = false;
 
+    public int totalEnemiesDefeated = 0;
+
     List<Enemy> aliveEnemies = new List<Enemy>();
 
     public bool WaveRunning => waveRunning;
@@ -27,11 +32,14 @@ public class WaveManager : MonoBehaviour
 
     void Start()
     {
+        UpdateWaveUI();
+        UpdateScoreUI();
         StartWave();
     }
 
     void Update()
     {
+        
         if (!waveRunning)
             return;
 
@@ -68,12 +76,18 @@ public class WaveManager : MonoBehaviour
         aliveEnemies.Remove(e);
     }
 
+    public void AddKillCount()
+    {
+        totalEnemiesDefeated++;
+        UpdateScoreUI(); // 점수판 갱신
+    }
+
     void StartWave()
     {
         waveRunning = true;
         waveTimer = 0f;
         spawnedSomethingThisWave = false;
-
+        UpdateWaveUI();
         foreach (Spawner sp in spawners)
             if (sp != null)
                 sp.SetupForWave(currentWave);
@@ -90,5 +104,20 @@ public class WaveManager : MonoBehaviour
         }
 
         StartWave();
+    }
+    void UpdateWaveUI()
+    {
+        if (waveText != null)
+        {
+            waveText.text = $"WAVE: {currentWave}";
+        }
+    }
+
+    void UpdateScoreUI()
+    {
+        if (scoreText != null)
+        {
+            scoreText.text = $"KILLS: {totalEnemiesDefeated}";
+        }
     }
 }
