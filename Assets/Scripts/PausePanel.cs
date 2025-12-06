@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PausePanel : MonoBehaviour
 {
     public Slider VolumeSlider;
+    public Slider SensitivitySlider;
 
     private void OnEnable()
     {
@@ -14,6 +15,11 @@ public class PausePanel : MonoBehaviour
         if (VolumeSlider != null)
         {
             VolumeSlider.value = AudioListener.volume;
+        }
+        if (SensitivitySlider != null)
+        {
+            float savedSensitivity = PlayerPrefs.GetFloat("MouseSensitivity", 1.0f);
+            SensitivitySlider.value = savedSensitivity;
         }
     }
 
@@ -29,7 +35,7 @@ public class PausePanel : MonoBehaviour
             Time.timeScale = 1f;
 
         }
-
+        PlayerPrefs.Save();
     }
 
     public void ResumeGame()
@@ -53,6 +59,10 @@ public class PausePanel : MonoBehaviour
         // 나중에 PlayerPrefs 등을 이용해 저장 기능 추가 가능
         // PlayerPrefs.SetFloat("MasterVolume", volume);
     }
+    public void SetMouseSensitivity(float sensitivity)
+    {
+        // PlayerPrefs를 통해 값을 저장해두면, 카메라 스크립트에서 이 값을 읽어서 쓸 수 있습니다.
+        PlayerPrefs.SetFloat("MouseSensitivity", sensitivity);
+    }
 
-   
 }

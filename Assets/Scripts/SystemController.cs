@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class SystemController : MonoBehaviour
 {
@@ -17,8 +18,8 @@ public class SystemController : MonoBehaviour
 
     public GameObject pauseMenuPanel;
     public GameObject levelUpPanel;
-    public Text speedButtonText;
-    public Text goldButtonText;
+    public TextMeshProUGUI speedButtonText;
+    public TextMeshProUGUI goldButtonText;
 
     // ------------------------------
     // 타워 강화 시스템
