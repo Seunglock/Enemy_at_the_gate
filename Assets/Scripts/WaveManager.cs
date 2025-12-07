@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using TMPro;
 public class WaveManager : MonoBehaviour
 {
@@ -87,7 +88,14 @@ public class WaveManager : MonoBehaviour
         waveRunning = true;
         waveTimer = 0f;
         spawnedSomethingThisWave = false;
+
+
         UpdateWaveUI();
+
+        if (SoundManager.instance != null)
+        {
+            SoundManager.instance.CheckWaveBGM(currentWave);
+        }
         foreach (Spawner sp in spawners)
             if (sp != null)
                 sp.SetupForWave(currentWave);

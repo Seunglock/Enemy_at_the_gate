@@ -10,6 +10,7 @@ public class SystemController : MonoBehaviour
     public static SystemController instance;
 
     public float currentSpeed = 1.0f;
+    public int playerHealth = 10;
 
     public int level = 1;
     public int exp = 0;
@@ -65,6 +66,16 @@ public class SystemController : MonoBehaviour
         }
     }
 
+    public void TakeDamage(int damage)
+    {
+        playerHealth -= damage;
+        Debug.Log($"체력 감소! 남은 체력: {playerHealth}");
+
+        if (playerHealth <= 0)
+        {
+            Die();
+        }
+    }
     public void TogglePausePanel()
     {
         if (levelUpPanel != null && levelUpPanel.activeSelf) return;
@@ -182,5 +193,53 @@ public class SystemController : MonoBehaviour
 
         Debug.Log($"[강화] 타워 사거리 x{towerRangeMultiplier}");
         upgradeCost += 50;
+    }
+    void Die()
+    {
+        Debug.Log("플레이어 사망 (게임 오버)");
+
+        // 1. 현재 웨이브 가져오기
+        int currentWave = 0;
+        if (WaveManager.instance != null)
+        {
+            currentWave = WaveManager.instance.currentWave;
+        }
+
+        // 2. 웨이브에 따른 엔딩 분기
+        if (currentWave >= 51)
+        {
+            // 51 웨이브 이상 버티고 죽었음 -> 노말 엔딩
+            if (SceneController.instance != null)
+                SceneController.instance.LoadNormalEnd();
+        }
+        else
+        {
+            // 51 웨이브 전에 죽었음 -> 배드 엔딩
+            if (SceneController.instance != null)
+                SceneController.instance.LoadBadEnd();
+        }
+    }
+    public class SceneController : MonoBehaviour
+    {
+        public static SceneController instance;
+
+        private void Awake()
+        {
+            if (instance == null) instance = this;
+        }
+
+        // 1. 노말 엔딩 (51 웨이브 도달 시)
+        public void LoadNormalEnd()
+        {
+            Debug.Log("축하합니다! 51 웨이브 도달. 노말 엔딩!");
+            SceneManager.LoadScene("NormalEndScene");
+        }
+
+        // 2. 배드 엔딩 (죽었을 시)
+        public void LoadBadEnd()
+        {
+            Debug.Log("게임 오버... 배드 엔딩.");
+            SceneManager.LoadScene("BadEndScene");
+        }
     }
 }
