@@ -21,6 +21,8 @@ public class Enemy : MonoBehaviour
     private Coroutine slowCoroutine;
     private Coroutine speedBoostCoroutine;
 
+    private bool isBlocked = false;       // 현재 막혀있는지 확인
+    private GameObject targetBarricade;   // 나를 막고 있는 바리케이드 오브젝트
     void Start()
     {
         originalSpeed = moveSpeed;
@@ -38,7 +40,16 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        Move();
+        if (isBlocked && targetBarricade == null)
+        {
+            isBlocked = false; // 다시 이동 가능 상태로 변경
+        }
+
+        // 2. 막히지 않았을 때만 이동 함수 호출
+        if (!isBlocked)
+        {
+            Move();
+        }
     }
 
     void Move()
@@ -69,7 +80,47 @@ public class Enemy : MonoBehaviour
             }
         }
     }
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.CompareTag("Barricade"))
+        {
+            // 1. 내가 지금 가려는 목표 방향 (벡터)
+            if (path == null || index >= path.Length) return;
+            Vector3 moveDir = (path[index].position - transform.position).normalized;
 
+            // 2. 나 -> 바리케이드 쪽을 향하는 방향 (벡터)
+            Vector3 toBarricade = (other.transform.position - transform.position).normalized;
+
+            // 3. 두 방향이 얼마나 비슷한지 계산 (내적)
+            // 결과가 0보다 크면: 바리케이드가 '내 앞' (시야각 180도 내)에 있음 -> 멈춤
+            // 결과가 0보다 작으면: 바리케이드가 '내 뒤'에 있음 -> 지나친 것이므로 통과
+            float dot = Vector3.Dot(moveDir, toBarricade);
+
+            if (dot > 0)
+            {
+                isBlocked = true;
+                targetBarricade = other.gameObject;
+            }
+            else
+            {
+                // 이미 지나쳤으면(뒤에 있으면) 족쇄를 풀어줌
+                isBlocked = false;
+                targetBarricade = null;
+                if (anim != null) anim.speed = 1;
+            }
+        }
+    }
+
+    // [수정] 나갈 때도 마찬가지로 Trigger
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Barricade"))
+        {
+            isBlocked = false;
+            targetBarricade = null;
+            if (anim != null) anim.speed = 1;
+        }
+    }
     void ReachGoal()
     {
         Die(false);
