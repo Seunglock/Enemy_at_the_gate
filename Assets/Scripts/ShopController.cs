@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ShopController : MonoBehaviour
 {
+    public static ShopController instance;
+
     [Header("Shop Prices")]
     public int expCost = 40;
     public int buffCost = 300;
@@ -11,35 +13,70 @@ public class ShopController : MonoBehaviour
     public int barricadeCost = 100;
 
     [Header("Shop Values")]
-    public int expAmount = 40;       // 구매 시 얻는 경험치
-    public float buffDuration = 10f; // 버프 지속 시간
-    public float ultimateDamage = 100f; // 광역 데미지
+    public int expAmount = 40;
+    public float buffDuration = 10f;
+    public float ultimateDamage = 100f;
 
-    public GameObject barricadePrefab;   // 소환할 바리케이드 프리팹
-    public Transform barricadeSpawnPoint; // 소환될 "지정한 위치" (빈 오브젝트)
-    public float barricadeLifeTime = 5f; // 유지시간
-    private bool isBarricadeActive = false; //바리케이드 중복방지용
+    [Header("Barricade Settings")]
+    public GameObject barricadePrefab;
+    public BarricadePlacer[] barricadeSpots;
+    public float barricadeLifeTime = 5f;
 
-    public GameObject towerSelectPanel;     // 타워 선택 패널
-    public GameObject[] uiImagesToHide;     // 패널이 켜질 때 숨길 UI 이미지들 (배열)
+    private bool isPlacementMode = false;
 
+    [Header("UI")]
+    public GameObject towerSelectPanel;
+    public GameObject[] uiImagesToHide;
+
+    private void Awake()
+    {
+        if (instance == null) instance = this;
+    }
+
+    // ★ 여기가 문제가 생겼던 부분입니다. 이 함수 하나만 있어야 합니다.
     public void SetTowerSelectMode(bool isOpen)
     {
-        // 1. 타워 선택 패널 활성화/비활성화
+        // 1. 함수가 호출은 되는지 확인 (로그 확인용)
+        Debug.Log($"[진단] SetTowerSelectMode 호출됨! 상태(isOpen): {isOpen}");
+
+        // 2. 패널 연결 확인
         if (towerSelectPanel != null)
         {
             towerSelectPanel.SetActive(isOpen);
         }
-
-        // 2. 특정 이미지들 반대로 설정 (패널이 켜지면 -> 이미지는 꺼짐)
-        if (uiImagesToHide != null)
+        else
         {
-            foreach (GameObject obj in uiImagesToHide)
+            Debug.LogError(" [오류] Tower Select Panel이 인스펙터에 연결되지 않았습니다!");
+        }
+
+        // 3. 숨길 이미지 리스트 확인
+        if (uiImagesToHide == null)
+        {
+            Debug.LogError(" [오류] uiImagesToHide 리스트 자체가 없습니다 (Null).");
+            return;
+        }
+
+        if (uiImagesToHide.Length == 0)
+        {
+            Debug.LogError(" [오류] uiImagesToHide 리스트 사이즈가 0입니다. 인스펙터에서 Size를 늘리고 오브젝트를 넣으세요.");
+            return;
+        }
+
+        // 4. 실제 숨김 처리
+        for (int i = 0; i < uiImagesToHide.Length; i++)
+        {
+            GameObject obj = uiImagesToHide[i];
+
+            if (obj == null)
             {
-                if (obj != null)
-                {
-                    obj.SetActive(!isOpen); // isOpen의 반대 상태로 설정
-                }
+                Debug.LogError($"[오류] 리스트의 {i}번째 칸이 비어있습니다(None). 오브젝트를 드래그해서 넣으세요.");
+            }
+            else
+            {
+                // isOpen이 true(창이 열림)면 -> 활성상태는 false(숨김)가 되어야 함
+                bool targetState = !isOpen;
+                obj.SetActive(targetState);
+                // Debug.Log($" [성공] {obj.name} 오브젝트를 {targetState} 상태로 변경했습니다.");
             }
         }
     }
@@ -54,33 +91,26 @@ public class ShopController : MonoBehaviour
         }
     }
 
-    // 2. 타워 버프 (공격력/공속 증가)
+    // 2. 타워 버프
     public void BuyTowerBuff()
     {
         if (SystemController.instance.TrySpendGold(buffCost))
         {
-            // 씬에 있는 태그가 "Tower"인 모든 오브젝트 찾기
             GameObject[] towers = GameObject.FindGameObjectsWithTag("Tower");
-
             foreach (GameObject t in towers)
             {
-                // 각 타워 스크립트에 접근해서 버프 함수 호출
-                // (각 타워 스크립트에 ActivateBuff 함수가 있어야 함)
-
-                // 예시: SendMessage를 쓰면 타워 종류 상관없이 함수만 있으면 호출됨
                 t.SendMessage("ActivateBuff", buffDuration, SendMessageOptions.DontRequireReceiver);
             }
             Debug.Log($"모든 타워 버프 발동! ({buffDuration}초)");
         }
     }
 
-    // 3. 광역 필살기 (화면 전체 적 타격)
+    // 3. 광역 필살기
     public void BuyUltimate()
     {
         if (SystemController.instance.TrySpendGold(ultimateCost))
         {
             GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-
             foreach (GameObject e in enemies)
             {
                 Enemy enemyScript = e.GetComponent<Enemy>();
@@ -93,49 +123,55 @@ public class ShopController : MonoBehaviour
         }
     }
 
+    // 4. 바리케이드 구매 버튼
     public void BuyBarricade()
     {
-        // 1. 이미 바리케이드가 있다면 구매 불가 (선택사항)
-        if (isBarricadeActive)
-        {
-            Debug.Log("이미 바리케이드가 설치되어 있습니다!");
-            return;
-        }
+        isPlacementMode = !isPlacementMode;
 
-        // 2. 골드 지불 확인
-        if (SystemController.instance.TrySpendGold(barricadeCost))
+        if (barricadeSpots != null)
         {
-            // 3. 지정된 위치(spawnPoint)가 없으면 에러 방지
-            if (barricadeSpawnPoint == null)
+            foreach (BarricadePlacer spot in barricadeSpots)
             {
-                Debug.LogError("바리케이드 소환 위치(Spawn Point)가 지정되지 않았습니다!");
-                return;
+                if (spot != null) spot.SetHighlight(isPlacementMode);
             }
-
-            // 4. 소환 및 타이머 시작
-            StartCoroutine(BarricadeRoutine());
         }
+
+        if (isPlacementMode) Debug.Log("바리케이드 설치 모드: 반짝이는 위치를 클릭하세요.");
+        else Debug.Log("설치 모드 취소");
     }
 
-    // 바리케이드 생성 -> 대기 -> 삭제 코루틴
-    IEnumerator BarricadeRoutine()
+    // 5. 실제 설치 시도
+    public void AttemptInstallBarricade(BarricadePlacer placer)
     {
-        isBarricadeActive = true;
+        if (!isPlacementMode) return;
 
-        // 생성
-        GameObject barricade = Instantiate(barricadePrefab, barricadeSpawnPoint.position, Quaternion.identity);
-        Debug.Log("바리케이드 설치됨!");
-
-        // 5초 대기
-        yield return new WaitForSeconds(barricadeLifeTime);
-
-        // 삭제
-        if (barricade != null)
+        if (SystemController.instance.TrySpendGold(barricadeCost))
         {
-            Destroy(barricade);
-        }
+            placer.InstallBarricade(barricadePrefab, barricadeLifeTime);
+            Debug.Log("바리케이드 설치 완료!");
 
-        isBarricadeActive = false;
-        Debug.Log("바리케이드 사라짐!");
+            isPlacementMode = false;
+
+            if (barricadeSpots != null)
+            {
+                foreach (BarricadePlacer spot in barricadeSpots)
+                {
+                    if (spot != null) spot.SetHighlight(false);
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("골드가 부족합니다!");
+            isPlacementMode = false;
+            foreach (BarricadePlacer spot in barricadeSpots)
+            {
+                if (spot != null) spot.SetHighlight(false);
+            }
+        }
+    }
+    public bool IsPlacementMode()
+    {
+        return isPlacementMode;
     }
 }

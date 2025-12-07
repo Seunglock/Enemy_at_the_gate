@@ -9,6 +9,7 @@ public class LevelUpPanel : MonoBehaviour
 
     public GameObject[] rewardButtons; // 보상 선택 버튼 3개 배열
     public Text[] rewardTexts;         // 각 버튼의 텍스트 (옵션)
+    public Image[] rewardIcons;
 
     // 현재 화면에 떠있는 보상 데이터 저장용
     private List<RewardData> currentOptions;
@@ -28,19 +29,28 @@ public class LevelUpPanel : MonoBehaviour
             // 가져온 보상 정보를 버튼 UI에 표시
             for (int i = 0; i < rewardButtons.Length; i++)
             {
+                // 보상 데이터가 있으면 버튼 활성화 및 UI 갱신
                 if (i < currentOptions.Count)
                 {
                     rewardButtons[i].SetActive(true);
+                    RewardData data = currentOptions[i];
 
-                    // 텍스트 갱신 (예: "공격력 증가 +10")
+                    // (1) 아이콘 이미지 적용
+                    if (rewardIcons != null && i < rewardIcons.Length)
+                    {
+                        rewardIcons[i].sprite = data.icon;
+                        rewardIcons[i].preserveAspect = true; // 비율 유지
+                    }
+
+                    // (2) 설명 텍스트 적용 (이름 + 설명)
                     if (rewardTexts != null && i < rewardTexts.Length)
                     {
-                        rewardTexts[i].text = $"{currentOptions[i].rewardName}\n<size=12>{currentOptions[i].description}</size>";
+                        rewardTexts[i].text = $"<b>{data.rewardName}</b>\n<size=18>{data.description}</size>";
                     }
                 }
                 else
                 {
-                    // 보상 데이터가 부족하면 남는 버튼 끄기
+                    // 데이터 없으면 버튼 끄기
                     rewardButtons[i].SetActive(false);
                 }
             }

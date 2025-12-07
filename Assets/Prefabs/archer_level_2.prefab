@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 615160470}
   m_Layer: 0
   m_Name: archer_level_2
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 300
   m_Sprite: {fileID: 21300000, guid: d1371205877538447ad2ea473179746d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -117,9 +117,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackRange: 8
   attackCooldown: 2
+  damage: 2
   firePoint: {fileID: 1925389284967946369}
   arrowPrefab: {fileID: 4111425245804094528, guid: d5cfceebbf7aed2428dd5e4318c8a5bd, type: 3}
-  damage: 2
 --- !u!1 &1895097773226440491
 GameObject:
   m_ObjectHideFlags: 0
