@@ -168,6 +168,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4447ccb93fe27c4baaef394e5041ee2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 5
+  hp: 8
   goldReward: 5
   moveSpeed: 2

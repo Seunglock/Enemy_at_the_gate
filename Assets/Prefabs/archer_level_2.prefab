@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8670599542085270043}
   - component: {fileID: 615160471}
   - component: {fileID: 615160470}
+  - component: {fileID: 663938523131554723}
   m_Layer: 0
   m_Name: archer_level_2
   m_TagString: Tower
@@ -120,6 +121,18 @@ MonoBehaviour:
   damage: 2
   firePoint: {fileID: 1925389284967946369}
   arrowPrefab: {fileID: 4111425245804094528, guid: d5cfceebbf7aed2428dd5e4318c8a5bd, type: 3}
+--- !u!114 &663938523131554723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324818895353994991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22d3b52addcd3b64699e74a268cce2d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1895097773226440491
 GameObject:
   m_ObjectHideFlags: 0

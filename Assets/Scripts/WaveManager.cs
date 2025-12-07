@@ -2,12 +2,13 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
+
 public class WaveManager : MonoBehaviour
 {
     public static WaveManager instance;
 
-    public TextMeshProUGUI waveText;  // 웨이브 표시용 TMP 연결
-    public TextMeshProUGUI scoreText; // 킬 수(점수) 표시용 TMP 연결
+    public TextMeshProUGUI waveText;
+    public TextMeshProUGUI scoreText;
 
     public Spawner[] spawners;
 
@@ -40,13 +41,12 @@ public class WaveManager : MonoBehaviour
 
     void Update()
     {
-        
         if (!waveRunning)
             return;
 
         waveTimer += Time.deltaTime;
 
-        UnityEngine.Debug.Log("Wave: " + currentWave + " Time: " + waveTimer);
+        
 
         aliveEnemies.RemoveAll(e => e == null);
 
@@ -65,7 +65,6 @@ public class WaveManager : MonoBehaviour
     public void RegisterEnemy(Enemy e)
     {
         aliveEnemies.Add(e);
-
         spawnedSomethingThisWave = true;
 
         float scale = 1f + (currentWave - 1) * 0.25f;
@@ -80,7 +79,7 @@ public class WaveManager : MonoBehaviour
     public void AddKillCount()
     {
         totalEnemiesDefeated++;
-        UpdateScoreUI(); // 점수판 갱신
+        UpdateScoreUI();
     }
 
     void StartWave()
@@ -89,16 +88,19 @@ public class WaveManager : MonoBehaviour
         waveTimer = 0f;
         spawnedSomethingThisWave = false;
 
-
         UpdateWaveUI();
 
         if (SoundManager.instance != null)
         {
             SoundManager.instance.CheckWaveBGM(currentWave);
         }
+
         foreach (Spawner sp in spawners)
             if (sp != null)
                 sp.SetupForWave(currentWave);
+
+        
+        UnityEngine.Debug.Log($"[WAVE START] Wave {currentWave} 시작");
     }
 
     void NextWave()
@@ -108,11 +110,15 @@ public class WaveManager : MonoBehaviour
         if (currentWave > maxWave)
         {
             waveRunning = false;
+            UnityEngine.Debug.Log("[GAME] 모든 웨이브 종료");
             return;
         }
 
+        UnityEngine.Debug.Log($"[WAVE CLEAR] 다음 웨이브: {currentWave}");
+
         StartWave();
     }
+
     void UpdateWaveUI()
     {
         if (waveText != null)

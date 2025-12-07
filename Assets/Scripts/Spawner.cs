@@ -39,13 +39,11 @@ public class Spawner : MonoBehaviour
     {
         timer = 0f;
 
-        // 웨이브에 해당 안 하면 비활성화
         bool active = IsActiveThisWave(wave);
         gameObject.SetActive(active);
 
         if (!active) return;
 
-        // 해당 웨이브에 보스가 지정되어 있다면 즉시 소환
         foreach (var rule in bossRules)
         {
             if (rule.wave == wave && rule.bossPrefab != null)
@@ -59,7 +57,6 @@ public class Spawner : MonoBehaviour
     {
         if (!gameObject.activeSelf) return;
 
-        // WaveManager가 웨이브 실행 중이 아닐 때는 스폰 금지
         if (!WaveManager.instance.WaveRunning) return;
 
         timer += Time.deltaTime;

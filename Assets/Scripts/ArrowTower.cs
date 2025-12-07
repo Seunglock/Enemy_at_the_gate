@@ -5,7 +5,7 @@ using UnityEngine;
 public class ArrowTower : MonoBehaviour
 {
     [Header("Tower Settings")]
-    public float attackRange = 8f;     // 고정 사거리
+    public float attackRange = 8f;     
     public float attackCooldown = 1f;
     public float damage = 10f;
 
@@ -13,7 +13,7 @@ public class ArrowTower : MonoBehaviour
     public Transform firePoint;
     public GameObject arrowPrefab;
 
-    // 원본 스탯 저장 (쿨타임, 데미지 계산용)
+  
     private float baseCooldown;
     private float baseDamage;
 
@@ -22,28 +22,22 @@ public class ArrowTower : MonoBehaviour
 
     void Start()
     {
-        // 게임 시작 시점의 기본값 저장
+       
         baseCooldown = attackCooldown;
         baseDamage = damage;
 
-        // 사거리(Collider Radius)는 인스펙터 설정값 그대로 유지되므로 코드 제어 불필요
+        
     }
 
     void Update()
     {
-        // ---------------------------------------------------------
-        // 증강체 적용 (사거리 제외)
-        // ---------------------------------------------------------
-
-        // 1. 데미지 갱신
+     
         damage = baseDamage * SystemController.instance.towerDamageMultiplier;
 
-        // 2. 쿨타임 갱신 (공격속도)
+       
         float currentCooldown = baseCooldown * SystemController.instance.towerFireRateMultiplier;
 
-        // (사거리 갱신 코드 삭제됨)
-
-        // ---------------------------------------------------------
+ 
 
         cooldownTimer -= Time.deltaTime;
 
@@ -52,7 +46,7 @@ public class ArrowTower : MonoBehaviour
         if (target != null && cooldownTimer <= 0f)
         {
             Shoot(target);
-            cooldownTimer = currentCooldown; // 갱신된 쿨타임 적용
+            cooldownTimer = currentCooldown; 
         }
     }
 
@@ -64,7 +58,6 @@ public class ArrowTower : MonoBehaviour
         arrowScript.damage = damage;
     }
 
-    // ... (나머지 GetFrontEnemy, OnTrigger 함수들은 그대로) ...
     Enemy GetFrontEnemy()
     {
         if (enemiesInRange.Count == 0) return null;

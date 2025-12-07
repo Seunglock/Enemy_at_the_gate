@@ -27,7 +27,7 @@ public class SystemController : MonoBehaviour
     // ------------------------------
     [Header("Tower Upgrade Settings")]
     public float towerDamageMultiplier = 1.0f;
-    public float towerFireRateMultiplier = 1.0f;   // 공격속도 → 쿨타임 감소
+    public float towerFireRateMultiplier = 1.0f;
     public float towerRangeMultiplier = 1.0f;
 
     public int upgradeCost = 100;
@@ -159,11 +159,6 @@ public class SystemController : MonoBehaviour
         }
     }
 
-
-    // =======================================================
-    //                  강화 기능 추가
-    // =======================================================
-
     public void UpgradeTowerDamage()
     {
         if (!TrySpendGold(upgradeCost)) return;
@@ -217,29 +212,6 @@ public class SystemController : MonoBehaviour
             // 51 웨이브 전에 죽었음 -> 배드 엔딩
             if (SceneController.instance != null)
                 SceneController.instance.LoadBadEnd();
-        }
-    }
-    public class SceneController : MonoBehaviour
-    {
-        public static SceneController instance;
-
-        private void Awake()
-        {
-            if (instance == null) instance = this;
-        }
-
-        // 1. 노말 엔딩 (51 웨이브 도달 시)
-        public void LoadNormalEnd()
-        {
-            Debug.Log("축하합니다! 51 웨이브 도달. 노말 엔딩!");
-            SceneManager.LoadScene("NormalEndScene");
-        }
-
-        // 2. 배드 엔딩 (죽었을 시)
-        public void LoadBadEnd()
-        {
-            Debug.Log("게임 오버... 배드 엔딩.");
-            SceneManager.LoadScene("BadEndScene");
         }
     }
 }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5874170624687838163}
   - component: {fileID: 3233579375779959024}
   - component: {fileID: 553583633}
+  - component: {fileID: 5805966496790693645}
   m_Layer: 0
   m_Name: PosionTest_level_1
   m_TagString: Tower
@@ -120,6 +121,18 @@ MonoBehaviour:
   percentDamage: 0.2
   firePoint: {fileID: 358678599663124111}
   poisonBottlePrefab: {fileID: 8727635616905734291, guid: 7ae2b62e4901f4c479a0ff8205c5d276, type: 3}
+--- !u!114 &5805966496790693645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 923835634568187241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbc0f45406196ff43bc2e7b1f0e9560c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7248813751345786323
 GameObject:
   m_ObjectHideFlags: 0
