@@ -6,25 +6,25 @@ public class ShopController : MonoBehaviour
 {
     public static ShopController instance;
 
-    [Header("Shop Prices")]
+    //상점가
     public int expCost = 40;
     public int buffCost = 300;
     public int ultimateCost = 500;
     public int barricadeCost = 100;
-
-    [Header("Shop Values")]
+    
+    //경험치양, 상품 효과
     public int expAmount = 40;
     public float buffDuration = 10f;
     public float ultimateDamage = 100f;
 
-    [Header("Barricade Settings")]
+    //바리케이드 담당
     public GameObject barricadePrefab;
     public BarricadePlacer[] barricadeSpots;
     public float barricadeLifeTime = 5f;
 
     private bool isPlacementMode = false;
 
-    [Header("UI")]
+    //타워 패널 연동
     public GameObject towerSelectPanel;
     public GameObject[] uiImagesToHide;
 
@@ -33,13 +33,12 @@ public class ShopController : MonoBehaviour
         if (instance == null) instance = this;
     }
 
-    // ★ 여기가 문제가 생겼던 부분입니다. 이 함수 하나만 있어야 합니다.
     public void SetTowerSelectMode(bool isOpen)
     {
-        // 1. 함수가 호출은 되는지 확인 (로그 확인용)
-        Debug.Log($"[진단] SetTowerSelectMode 호출됨! 상태(isOpen): {isOpen}");
+        //함수가 호출은 되는지 확인
+        Debug.Log($"SetTowerSelectMode 호출됨! 상태(isOpen): {isOpen}");
 
-        // 2. 패널 연결 확인
+        //패널 연결 확인
         if (towerSelectPanel != null)
         {
             towerSelectPanel.SetActive(isOpen);
@@ -49,7 +48,7 @@ public class ShopController : MonoBehaviour
             Debug.LogError(" [오류] Tower Select Panel이 인스펙터에 연결되지 않았습니다!");
         }
 
-        // 3. 숨길 이미지 리스트 확인
+        //숨길 이미지 리스트 확인
         if (uiImagesToHide == null)
         {
             Debug.LogError(" [오류] uiImagesToHide 리스트 자체가 없습니다 (Null).");
@@ -62,7 +61,7 @@ public class ShopController : MonoBehaviour
             return;
         }
 
-        // 4. 실제 숨김 처리
+        //실제 숨김 처리
         for (int i = 0; i < uiImagesToHide.Length; i++)
         {
             GameObject obj = uiImagesToHide[i];
@@ -73,15 +72,15 @@ public class ShopController : MonoBehaviour
             }
             else
             {
-                // isOpen이 true(창이 열림)면 -> 활성상태는 false(숨김)가 되어야 함
+                // 창 열리면 닫힘
                 bool targetState = !isOpen;
                 obj.SetActive(targetState);
-                // Debug.Log($" [성공] {obj.name} 오브젝트를 {targetState} 상태로 변경했습니다.");
+                
             }
         }
     }
 
-    // 1. 경험치 구매
+    //경험치 구매
     public void BuyExp()
     {
         if (SystemController.instance.TrySpendGold(expCost))
@@ -91,7 +90,7 @@ public class ShopController : MonoBehaviour
         }
     }
 
-    // 2. 타워 버프
+    //타워 버프
     public void BuyTowerBuff()
     {
         if (SystemController.instance.TrySpendGold(buffCost))
@@ -105,7 +104,7 @@ public class ShopController : MonoBehaviour
         }
     }
 
-    // 3. 광역 필살기
+    //광역 필살기
     public void BuyUltimate()
     {
         if (SystemController.instance.TrySpendGold(ultimateCost))
@@ -123,7 +122,7 @@ public class ShopController : MonoBehaviour
         }
     }
 
-    // 4. 바리케이드 구매 버튼
+    //바리케이드 구매 버튼
     public void BuyBarricade()
     {
         isPlacementMode = !isPlacementMode;
@@ -140,7 +139,7 @@ public class ShopController : MonoBehaviour
         else Debug.Log("설치 모드 취소");
     }
 
-    // 5. 실제 설치 시도
+    //실제 설치 시도
     public void AttemptInstallBarricade(BarricadePlacer placer)
     {
         if (!isPlacementMode) return;

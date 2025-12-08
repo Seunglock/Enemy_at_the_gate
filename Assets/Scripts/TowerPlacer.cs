@@ -14,12 +14,13 @@ public class TowerPlacer : MonoBehaviour
     public GameObject wizardPrefab;
     public GameObject poisonPrefab;
 
-    //타워 가격
+    [Header("Prices")]
     public int arrowPrice = 50;
     public int mortarPrice = 70;
     public int wizardPrice = 90;
     public int poisonPrice = 100;
 
+    // 내부 변수
     private Tile selectedTile;
     private string selectedTower = "";
 
@@ -28,60 +29,62 @@ public class TowerPlacer : MonoBehaviour
         instance = this;
     }
 
-    void DetectTileClick()
+    void Update()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit))
+        // 마우스 클릭 감지
+        if (Input.GetMouseButtonDown(0))
         {
-            if (hit.transform.GetComponent<BarricadePlacer>() != null)
-            {
-                return;
-            }
+            
+            if (EventSystem.current.IsPointerOverGameObject()) return;
 
-            // 클릭한 물체에 'Tile' 스크립트가 없다면 무시
-            Tile tileScript = hit.transform.GetComponent<Tile>();
+            if (ShopController.instance != null && ShopController.instance.IsPlacementMode()) return;
+
+            DetectTileClick2D();
+        }
+    }
+
+    void DetectTileClick2D()
+    {
+        // 마우스 위치를 월드 좌표로 변환
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
+
+        // 레이저 발사 (2D Physics)
+        RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
+
+        if (hit.collider != null)
+        {
+           
+            Debug.Log("클릭된 물체: " + hit.collider.name);
+
+            // 타일 스크립트 가져오기
+            Tile tileScript = hit.collider.GetComponent<Tile>();
 
             if (tileScript != null)
             {
-                if (tileScript.isOccupied) return; // 이미 타워 있으면 무시
+                if (tileScript.isOccupied)
+                {
+                    Debug.Log("이미 건물이 있습니다.");
+                    return;
+                }
 
-                OpenUI(tileScript); // 순수 타일일 때만 UI 오픈
+                // 타일 정상 인식 -> UI 열기
+                OpenUI(tileScript);
             }
         }
     }
 
-    // 타일 클릭 시 호출
     public void OpenUI(Tile tile)
     {
         selectedTile = tile;
-        ui.Show();
-    }
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            // 1. UI 클릭 방지
-            if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) return;
-
-            // ★ [추가] 2. 바리케이드 설치 모드라면? -> 타워 로직 작동 금지!
-            if (ShopController.instance != null && ShopController.instance.IsPlacementMode())
-            {
-                // "지금은 바리케이드 설치 중이니까 타워 창 안 띄울게" 하고 종료
-                return;
-            }
-
-            // 3. 타일 감지 시작
-            DetectTileClick();
-        }
+        if (ui != null) ui.Show();
     }
 
-    // 어떤 타워를 선택했는지 받음
+    // TowerSelectUI에서 호출하는 함수
     public void SetSelectedTower(string towerName)
     {
         selectedTower = towerName;
-        PlaceTower();
+        PlaceTower(); // 타워 이름 설정 후 바로 건설 시도
     }
 
     void PlaceTower()
@@ -91,51 +94,39 @@ public class TowerPlacer : MonoBehaviour
         GameObject prefab = null;
         int cost = 0;
 
+        // 이름에 따라 프리팹과 가격 설정
         switch (selectedTower)
         {
-            case "Arrow":
-                prefab = arrowPrefab;
-                cost = arrowPrice;
-                break;
-
-            case "Mortar":
-                prefab = mortarPrefab;
-                cost = mortarPrice;
-                break;
-
-            case "Wizard":
-                prefab = wizardPrefab;
-                cost = wizardPrice;
-                break;
-
-            case "Poison":
-                prefab = poisonPrefab;
-                cost = poisonPrice;
-                break;
+            case "Arrow": prefab = arrowPrefab; cost = arrowPrice; break;
+            case "Mortar": prefab = mortarPrefab; cost = mortarPrice; break;
+            case "Wizard": prefab = wizardPrefab; cost = wizardPrice; break;
+            case "Poison": prefab = poisonPrefab; cost = poisonPrice; break;
         }
 
         if (prefab == null)
         {
-            Debug.LogError("타워 프리팹이 연결되지 않음!");
+            Debug.LogError("타워 프리팹이 설정되지 않았습니다!");
             return;
         }
 
-        if (SystemController.instance == null || !SystemController.instance.TrySpendGold(cost))
+        // 돈 확인 (SystemController가 있을 때만)
+        if (SystemController.instance != null)
         {
-            Debug.Log("건설 실패: 골드가 부족합니다.");
-            return;
+            if (!SystemController.instance.TrySpendGold(cost))
+            {
+                Debug.Log("골드가 부족합니다.");
+                return;
+            }
         }
 
-        // 타워 설치
+        // 타워 생성
         Instantiate(prefab, selectedTile.transform.position, Quaternion.identity);
 
-        // 타일 점유 처리
+        // 타일 상태 업데이트
         selectedTile.isOccupied = true;
 
         // 선택 초기화
         selectedTile = null;
         selectedTower = "";
     }
-
-
 }

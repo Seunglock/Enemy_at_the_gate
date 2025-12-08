@@ -22,10 +22,9 @@ public class SystemController : MonoBehaviour
     public TextMeshProUGUI speedButtonText;
     public TextMeshProUGUI goldButtonText;
 
-    // ------------------------------
+   
     // 타워 강화 시스템
-    // ------------------------------
-    [Header("Tower Upgrade Settings")]
+    
     public float towerDamageMultiplier = 1.0f;
     public float towerFireRateMultiplier = 1.0f;
     public float towerRangeMultiplier = 1.0f;
@@ -193,14 +192,14 @@ public class SystemController : MonoBehaviour
     {
         Debug.Log("플레이어 사망 (게임 오버)");
 
-        // 1. 현재 웨이브 가져오기
+        //현재 웨이브 가져오기
         int currentWave = 0;
         if (WaveManager.instance != null)
         {
             currentWave = WaveManager.instance.currentWave;
         }
 
-        // 2. 웨이브에 따른 엔딩 분기
+        //웨이브에 따른 엔딩 분기
         if (currentWave >= 51)
         {
             // 51 웨이브 이상 버티고 죽었음 -> 노말 엔딩

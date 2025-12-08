@@ -4,10 +4,8 @@ public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance; // ½Ì±ÛÅæ
 
-    [Header("BGM Player")]
-    public AudioSource bgmPlayer; // À½¾ÇÀ» Àç»ýÇÒ ½ºÇÇÄ¿ (AudioSource)
+    public AudioSource bgmPlayer;
 
-    [Header("BGM Clips")]
     public AudioClip defaultBGM; // 1 ~ 19¶ó¿îµå À½¾Ç
     public AudioClip wave20BGM;  // 20 ~ 39¶ó¿îµå À½¾Ç
     public AudioClip wave40BGM;  // 40 ~ 49¶ó¿îµå À½¾Ç

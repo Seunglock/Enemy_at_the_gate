@@ -4,7 +4,6 @@ using UnityEngine.EventSystems;
 
 public class BarricadePlacer : MonoBehaviour
 {
-    [Header("Settings")]
     public GameObject visualMarker; // 설치 가능 표시
 
     private GameObject currentBarricade;
@@ -26,17 +25,16 @@ public class BarricadePlacer : MonoBehaviour
         if (visualMarker != null) visualMarker.SetActive(isOn);
     }
 
-    // ★ 핵심: 마우스 클릭 시 스스로 판단
+    // 마우스 클릭 시 스스로 판단
     private void OnMouseDown()
     {
-        // 1. UI 가리고 있으면 무시
+        //UI 가리고 있으면 무시
         if (EventSystem.current.IsPointerOverGameObject()) return;
 
-        // 2. 이미 설치됐으면 무시
+        //이미 설치됐으면 무시
         if (isOccupied) return;
 
-        // 3. ★ "지금 설치 모드니?" 라고 ShopController에게 물어봄
-        // 설치 모드가 아니면 아무 일도 안 일어남 (타워 창도 안 뜸)
+        // 설치 모드가 아니면 아무 일도 안 일어남
         if (ShopController.instance != null && ShopController.instance.IsPlacementMode())
         {
             ShopController.instance.AttemptInstallBarricade(this);

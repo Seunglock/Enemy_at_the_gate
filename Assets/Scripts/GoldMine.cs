@@ -21,8 +21,6 @@ public class GoldMine : MonoBehaviour
 
             // °ñµå Áö±Þ
             SystemController.instance.AddGold(goldPerCycle);
-
-            Debug.Log("±Ý±¤ °ñµå È¹µæ: +" + goldPerCycle);
         }
     }
 

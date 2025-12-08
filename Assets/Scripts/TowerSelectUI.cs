@@ -3,17 +3,14 @@ using UnityEngine.UI;
 
 public class TowerSelectUI : MonoBehaviour
 {
-    [Header("UI 패널")]
-    public GameObject panel; // 인스펙터에서 실제 패널 오브젝트 연결 필수!
-
-    // ---- UI 제어 (TowerPlacer에서 호출) ----
-
+    public GameObject panel; //상점 패널 연결
+    
+    //tower placer 호출
     public void Show()
     {
-        // 1. 패널 켜기
+        // 패널 켜기
         if (panel != null) panel.SetActive(true);
 
-        // 2. ★ 중요: ShopController에게 "다른 UI들 숨겨줘!"라고 요청
         if (ShopController.instance != null)
         {
             ShopController.instance.SetTowerSelectMode(true);
@@ -22,17 +19,15 @@ public class TowerSelectUI : MonoBehaviour
 
     public void Hide()
     {
-        // 1. 패널 끄기
+        
         if (panel != null) panel.SetActive(false);
 
-        // 2. ★ 중요: ShopController에게 "숨겼던 UI 다시 보여줘!"라고 요청
+        //패널 복구
         if (ShopController.instance != null)
         {
             ShopController.instance.SetTowerSelectMode(false);
         }
     }
-
-    // ---- 버튼 클릭 이벤트 (인스펙터의 버튼 OnClick에 연결) ----
 
     public void ClickArrow()
     {

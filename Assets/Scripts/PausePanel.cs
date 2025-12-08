@@ -13,19 +13,17 @@ public class PausePanel : MonoBehaviour
     {
         Time.timeScale = 0f;
 
-        // --- 볼륨 슬라이더 설정 (핵심 수정) ---
         if (VolumeSlider != null)
         {
-            // 1. 저장된 볼륨값 불러오기
-            // "MasterVolume"이라는 키가 없으면(처음 켰으면) 0.5f(50%)를 기본값으로 사용
+            //저장된 볼륨값 불러오기
+            // 처음엔 기본값대로
             float savedVol = PlayerPrefs.GetFloat("MasterVolume", 0.5f);
 
-            // 2. 슬라이더 위치와 실제 볼륨에 적용
+            //슬라이더 위치와 실제 볼륨에 적용
             VolumeSlider.value = savedVol;
             AudioListener.volume = savedVol;
         }
 
-        // --- 감도 슬라이더 설정 ---
         if (SensitivitySlider != null)
         {
             float savedSensitivity = PlayerPrefs.GetFloat("MouseSensitivity", 1.0f);
@@ -65,7 +63,6 @@ public class PausePanel : MonoBehaviour
     {
         AudioListener.volume = volume;
 
-        // ★ [중요] 주석 해제함: 값이 변할 때마다 저장해둬야 함
         PlayerPrefs.SetFloat("MasterVolume", volume);
     }
 

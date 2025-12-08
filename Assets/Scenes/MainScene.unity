@@ -5476,6 +5476,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 663428665}
   m_CullTransparentMesh: 1
+--- !u!1 &667897071
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 667897072}
+  m_Layer: 0
+  m_Name: BMarker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &667897072
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 667897071}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 8.339442, y: -16.03452, z: -0.12612987}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &713260250
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58809,7 +58840,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -59648,6 +59679,10 @@ PrefabInstance:
     - target: {fileID: 2382891179185956478, guid: c99706d2be2bb284e93df5a3c481ba90, type: 3}
       propertyPath: m_RootOrder
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2382891179185956478, guid: c99706d2be2bb284e93df5a3c481ba90, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2382891179185956478, guid: c99706d2be2bb284e93df5a3c481ba90, type: 3}
       propertyPath: m_LocalPosition.x
@@ -60634,7 +60669,7 @@ MonoBehaviour:
   barricadeCost: 1000
   expAmount: 40
   buffDuration: 10
-  ultimateDamage: 100
+  ultimateDamage: 200
   barricadePrefab: {fileID: 7566572495832151320, guid: 5ece1a2a99baf854a9374568ccad0863, type: 3}
   barricadeSpots:
   - {fileID: 2086247344}
@@ -63721,6 +63756,10 @@ PrefabInstance:
     - target: {fileID: 2382891179185956473, guid: c99706d2be2bb284e93df5a3c481ba90, type: 3}
       propertyPath: m_Name
       value: TowerPlace (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2382891179185956473, guid: c99706d2be2bb284e93df5a3c481ba90, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2382891179185956478, guid: c99706d2be2bb284e93df5a3c481ba90, type: 3}
       propertyPath: m_RootOrder

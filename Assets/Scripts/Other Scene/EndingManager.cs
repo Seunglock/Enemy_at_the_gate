@@ -25,7 +25,7 @@ public class EndingManager : MonoBehaviour
 
     void Start()
     {
-        // 1. 시간 정상화
+        //시간 정상화
         Time.timeScale = 1f;
 
         if (endingText == null)
@@ -34,37 +34,37 @@ public class EndingManager : MonoBehaviour
             return;
         }
 
-        // 2. 초기화 및 높이 계산
+        //초기화 및 높이 계산
         textRect = endingText.GetComponent<RectTransform>();
         endingText.ForceMeshUpdate();
 
-        // 부모(Canvas/Mask)의 높이를 종료 지점으로 설정
+        //Mask의 높이를 종료 지점으로 설정
         RectTransform parentRect = textRect.parent.GetComponent<RectTransform>();
         stopYPosition = parentRect.rect.height;
 
-        // 3. 시작 위치 설정
+        //시작 위치 설정
         float startY = -endingText.preferredHeight + startOffset;
         textRect.anchoredPosition = new Vector2(0, startY);
     }
 
     void Update()
     {
-        // 이미 종료 카운트다운 중이면 아무것도 안 함
+        //이미 종료 카운트다운 중이면 아무것도 안 함
         if (isEndingSequenceStarted) return;
 
-        // 1. ESC 키: 기다리지 않고 즉시 종료 (스킵 기능)
+        //즉시 종료
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Debug.Log("ESC 눌림: 즉시 종료합니다.");
             QuitGame();
         }
 
-        // 2. 텍스트 스크롤
+        //텍스트 스크롤
         if (endingText != null)
         {
             textRect.anchoredPosition += Vector2.up * scrollSpeed * Time.deltaTime;
 
-            // 3. 텍스트 바닥이 화면 꼭대기를 넘어갔는지 확인
+            // 텍스트 바닥이 화면 꼭대기를 넘어갔는지 확인
             if (textRect.anchoredPosition.y > stopYPosition)
             {
                 // 5초 대기 후 종료하는 코루틴 시작
